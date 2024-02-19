@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-class UsuarioController {
+class UserController {
   createHash(senha: string, salt: string): string {
     return "TODO: Fazer a logica de hasheamento e autenticacao";
   }
@@ -12,18 +12,17 @@ class UsuarioController {
     try {
       const {
         name,
-        secondName,
+        lastName,
         cpf,
         email,
         password,
         state,
         city,
-        bairro,
+        neighborhood,
         street,
-        streetNumber,
-        complemento,
+        houseNumber,
+        addressSupplement,
         birthday,
-        ddd,
         phoneNumber,
       } = req.body;
 
@@ -32,23 +31,22 @@ class UsuarioController {
       const hashPassword = this.createHash(password, salt);
       // TODO Fazer a Autenticacao
 
-      const newUser = await prisma.usuario.create({
+      const newUser = await prisma.user.create({
         data: {
-          nome: name,
-          sobrenome: secondName,
+          name: name,
+          lastName: lastName,
           email: email,
           cpf: cpf,
-          senhaHasheada: hashPassword,
+          hassPassword: hashPassword,
           salt: salt,
-          estado: state,
-          cidade: city,
-          bairro: bairro,
-          rua: street,
-          numeroRua: streetNumber,
-          complemento: complemento,
-          dataNascimento: birthday,
-          ddd: ddd,
-          numeroTelefone: phoneNumber,
+          state: state,
+          city: city,
+          neighborhood: neighborhood,
+          street: street,
+          houseNumber: houseNumber,
+          addressSupplement: addressSupplement,
+          birthday: birthday,
+          phoneNumber: phoneNumber,
         },
       });
       return res.status(201).json(newUser);
@@ -59,7 +57,7 @@ class UsuarioController {
 
   async showAll(req: Request, res: Response) {
     try {
-      const users = await prisma.usuario.findMany();
+      const users = await prisma.user.findMany();
 
       return res.status(201).json(users);
     } catch (error: any) {
@@ -71,7 +69,7 @@ class UsuarioController {
     try {
       const { id } = req.params;
 
-      const user = await prisma.usuario.findUnique({
+      const user = await prisma.user.findUnique({
         where: {
           id: Number(id),
         },
@@ -89,36 +87,33 @@ class UsuarioController {
 
       const {
         name,
-        secondName,
+        lastName,
         cpf,
         email,
-        password,
         state,
         city,
-        bairro,
+        neighborhood,
         street,
-        streetNumber,
-        complemento,
+        houseNumber,
+        addressSupplement,
         birthday,
-        ddd,
         phoneNumber,
       } = req.body;
 
-      const updatedUser = await prisma.usuario.update({
+      const updatedUser = await prisma.user.update({
         data: {
-          nome: name,
-          sobrenome: secondName,
+          name: name,
+          lastName: lastName,
           email: email,
           cpf: cpf,
-          estado: state,
-          cidade: city,
-          bairro: bairro,
-          rua: street,
-          numeroRua: streetNumber,
-          complemento: complemento,
-          dataNascimento: birthday,
-          ddd: ddd,
-          numeroTelefone: phoneNumber,
+          state: state,
+          city: city,
+          neighborhood: neighborhood,
+          street: street,
+          houseNumber: houseNumber,
+          addressSupplement: addressSupplement,
+          birthday: birthday,
+          phoneNumber: phoneNumber,
         },
         where: {
           id: Number(id),
@@ -135,7 +130,7 @@ class UsuarioController {
     try {
       const { id } = req.params;
 
-      const deletedUser = await prisma.usuario.delete({
+      const deletedUser = await prisma.user.delete({
         where: {
           id: Number(id),
         },
@@ -147,4 +142,4 @@ class UsuarioController {
     }
   }
 }
-export default new UsuarioController();
+export default new UserController();
