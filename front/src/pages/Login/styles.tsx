@@ -30,7 +30,7 @@ export const LinksContainer = styled.View`
 `;
 
 export const Detail = styled.Image`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   z-index: -1;
