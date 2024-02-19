@@ -9,3 +9,169 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+model Usuario{
+  id Int @id @default(autoincrement()) 
+  cpf Int @unique 
+  email String @unique
+  nome String
+  sobrenome String
+  salt String
+  senhaHasheada String @map("senha_hasheada")
+  estado String
+  cidade String
+  bairro String
+  rua String
+  numeroRua String @map("numero_rua")
+  complemento String?
+  dataNascimento DateTime @map("data_nascimento")
+  ddd String
+  numeroTelefone String @map("numero_telefone")
+  imgUrl String? @map("img_url")
+
+  livrosPublicados Livro[]
+
+  livrosFavoritados LivroFavoritado[]
+
+  livrosComentados ComentariosPostados[] 
+  carrinho Carrinho[]
+  comprasEfetuadas CompraEfetuada[]
+
+}
+
+
+model Livro{
+  id Int @id @default(autoincrement())
+  nome String 
+  autor String[]
+  preco Decimal @db.Money
+  dataPublicacao DateTime @default(now()) @map("data_publicacao")
+  idioma String
+  integridade String
+  encardenacao String
+  descricao String
+  imgUrl String @map("img_url")
+  categorias Categoria[]
+  autores Autor[]
+
+  idUsuario Int @unique @map("usuario_publicador")
+  usuarioPublicador Usuario @relation(fields: [idUsuario],references: [id])
+
+  usuariosQueFavoritaram LivroFavoritado[]
+  LivrosNoCarrinho LivroNoCarrinho[]
+
+}
+
+
+model Autor{
+  idLivro Int @unique @map("id_livro")
+  livro Livro @relation(fields: [idLivro],references: [id])
+  autor String
+
+  @@id([idLivro,autor])
+}
+
+model Categoria{
+  idLivro Int  @unique @map("id_livro")
+  livro Livro @relation(fields: [idLivro],references: [id])
+  categoria String
+
+  @@id([idLivro,categoria])
+}
+
+model LivroFavoritado{
+  idUsuario Int @unique @map("idusuario")
+  usuario Usuario @relation(fields: [idUsuario],references: [id])
+  idLivro Int @unique
+  livroFavoritado Livro @relation(fields: [idLivro],references: [id])
+  
+  @@id([idUsuario,idLivro])
+}
+
+
+model Comentario{
+  idUsuario Int @unique @map("id_usuario")
+  idLivro Int @unique @map("id_livro")
+
+  conteudo String
+  dataPublicacao DateTime @default(now()) @map("data_publicacao")
+
+  usuariosQueComentaram ComentariosPostados[] 
+
+  @@id([idUsuario,idLivro,dataPublicacao])
+
+}
+
+
+
+model ComentariosPostados{
+
+  usuario Usuario @relation(fields: [idUsuario],references: [id])
+
+  idUsuario Int  @unique @map("id_usuario")
+
+  comentario Comentario @relation(fields: [idUsuario,idLivro,dataPublicacao],references: [idUsuario,idLivro,dataPublicacao])
+
+  idLivro Int @unique @map("id_livro")
+  dataPublicacao DateTime @map("data_publicacao")
+
+
+  @@id([idUsuario,idLivro,dataPublicacao])
+
+}
+
+model Carrinho{
+  id Int @id @default(autoincrement())
+
+  idUsuario Int @unique @map("id_usuario")
+  usuario Usuario @relation(fields: [idUsuario],references: [id])
+
+  // idLivro Int @unique @map("id_livro")
+
+  valorTotal Decimal @db.Money @map("valor_total")
+  quantidade Int
+  dataAdicionado DateTime @default(now()) @map("data_adicionado")
+
+  LivrosNoCarrinho LivroNoCarrinho[]
+}
+
+// relacao n pra n entre carrinho e livro
+model LivroNoCarrinho{
+  idCarrinho Int @unique @map("id_carrinnho")
+  carrinho Carrinho @relation(fields: [idCarrinho],references: [id])
+  idLivro Int @unique @map("id_livro")
+  livro Livro @relation(fields: [idLivro],references: [id])
+
+  @@id([idCarrinho,idLivro])
+}
+
+model Compra{
+  idUsuario Int @unique @map("id_usuario")
+  idCarrinho Int @unique @map("id_carrinho")
+  dataCompra DateTime @default(now()) @map("data_compra")
+
+  valorPago Decimal @db.Money @map("valor_pago")
+
+  metodoPagamentoId Int @unique @map("metodo_pagamento")
+  metodoPagamento String
+
+  comprasEfetuadas CompraEfetuada[]
+
+  @@id([idUsuario,idCarrinho])
+
+}
+
+model CompraEfetuada{
+  idCarrinho Int @unique @map("id_carrinho")
+  idUsuario Int @unique @map("id_usuario")
+  quantidade Int
+  dataCompra DateTime @default(now()) @map("data_compra")
+  valor Decimal @db.Money
+  metodoPagamento String @map("metodo_pagamento")
+
+  compra Compra @relation(fields: [idCarrinho,idUsuario],references: [idCarrinho,idUsuario])
+  usuario Usuario @relation(fields: [idUsuario],references: [id])
+
+  @@id([idCarrinho,idUsuario])
+}
