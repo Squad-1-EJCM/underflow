@@ -1,4 +1,3 @@
-// This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
@@ -10,168 +9,135 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id                Int      @id @default(autoincrement())
+  cpf               Int      @unique
+  email             String   @unique
+  name              String
+  lastName          String
+  salt              String
+  hassPassword      String   @map("hash_password")
+  state             String
+  city              String
+  neighborhood      String
+  street            String
+  houseNumber       String   @map("house_number")
+  addressSupplement String?  @map("address_supplement")
+  birthday          DateTime @map("birthday")
+  phoneNumber       String   @unique @map("phone_number")
+  imgUrl            String?  @map("img_url")
 
-model Usuario{
-  id Int @id @default(autoincrement()) 
-  cpf Int @unique 
-  email String @unique
-  nome String
-  sobrenome String
-  salt String
-  senhaHasheada String @map("senha_hasheada")
-  estado String
-  cidade String
-  bairro String
-  rua String
-  numeroRua String @map("numero_rua")
-  complemento String?
-  dataNascimento DateTime @map("data_nascimento")
-  ddd String
-  numeroTelefone String @map("numero_telefone")
-  imgUrl String? @map("img_url")
-
-  livrosPublicados Livro[]
-
-  livrosFavoritados LivroFavoritado[]
-
-  livrosComentados ComentariosPostados[] 
-  carrinho Carrinho[]
-  comprasEfetuadas CompraEfetuada[]
-
+  publishedBooks Book[]
+  favoritedBooks BooksOnFavorites[]
+  commentedBooks UsersOnComments[]
+  carts          Cart[]
+  purchasesMade  PurchaseOnUser[]
 }
 
-
-model Livro{
-  id Int @id @default(autoincrement())
-  nome String 
-  autor String[]
-  preco Decimal @db.Money
-  dataPublicacao DateTime @default(now()) @map("data_publicacao")
-  idioma String
-  integridade String
-  encardenacao String
-  descricao String
-  imgUrl String @map("img_url")
-  categorias Categoria[]
-  autores Autor[]
-
-  idUsuario Int @unique @map("usuario_publicador")
-  usuarioPublicador Usuario @relation(fields: [idUsuario],references: [id])
-
-  usuariosQueFavoritaram LivroFavoritado[]
-  LivrosNoCarrinho LivroNoCarrinho[]
-
+model Book {
+  id                Int                @id @default(autoincrement())
+  title             String
+  author            String[]
+  price             Decimal            @db.Money
+  publishDate       DateTime           @default(now()) @map("publish_date")
+  edition           String
+  language          String
+  condition         String
+  format            String
+  description       String
+  imgUrl            String             @map("img_url")
+  category          Category[]
+  authors           Author[]
+  userId            Int                @unique @map("user_id")
+  publisherUser     User               @relation(fields: [userId], references: [id])
+  usersWhoFavorited BooksOnFavorites[]
+  booksOnCart       BooksOnCart[]
 }
 
+model Author {
+  bookId Int    @unique @map("book_id")
+  book   Book   @relation(fields: [bookId], references: [id])
+  author String
 
-model Autor{
-  idLivro Int @unique @map("id_livro")
-  livro Livro @relation(fields: [idLivro],references: [id])
-  autor String
-
-  @@id([idLivro,autor])
+  @@id([bookId, author])
 }
 
-model Categoria{
-  idLivro Int  @unique @map("id_livro")
-  livro Livro @relation(fields: [idLivro],references: [id])
-  categoria String
+model Category {
+  bookId   Int    @unique @map("book_id")
+  book     Book   @relation(fields: [bookId], references: [id])
+  category String
 
-  @@id([idLivro,categoria])
+  @@id([bookId, category])
 }
 
-model LivroFavoritado{
-  idUsuario Int @unique @map("idusuario")
-  usuario Usuario @relation(fields: [idUsuario],references: [id])
-  idLivro Int @unique
-  livroFavoritado Livro @relation(fields: [idLivro],references: [id])
-  
-  @@id([idUsuario,idLivro])
+model BooksOnFavorites {
+  userId        Int  @unique @map("user_id")
+  user          User @relation(fields: [userId], references: [id])
+  bookId        Int  @unique @map("book_id")
+  favoritedBook Book @relation(fields: [bookId], references: [id])
+
+  @@id([userId, bookId])
 }
 
+model Comment {
+  userId          Int               @unique @map("user_id")
+  bookId          Int               @unique @map("book_id")
+  content         String
+  publish_date    DateTime          @default(now()) @map("publish_date")
+  usersOnComments UsersOnComments[]
 
-model Comentario{
-  idUsuario Int @unique @map("id_usuario")
-  idLivro Int @unique @map("id_livro")
-
-  conteudo String
-  dataPublicacao DateTime @default(now()) @map("data_publicacao")
-
-  usuariosQueComentaram ComentariosPostados[] 
-
-  @@id([idUsuario,idLivro,dataPublicacao])
-
+  @@id([userId, bookId, publish_date])
 }
 
+model UsersOnComments {
+  userId      Int      @unique @map("user_id")
+  bookId      Int      @unique @map("book_id")
+  publishDate DateTime @map("publish_date")
+  user        User     @relation(fields: [userId], references: [id])
+  comment     Comment  @relation(fields: [userId, bookId, publishDate], references: [userId, bookId, publish_date])
 
-
-model ComentariosPostados{
-
-  usuario Usuario @relation(fields: [idUsuario],references: [id])
-
-  idUsuario Int  @unique @map("id_usuario")
-
-  comentario Comentario @relation(fields: [idUsuario,idLivro,dataPublicacao],references: [idUsuario,idLivro,dataPublicacao])
-
-  idLivro Int @unique @map("id_livro")
-  dataPublicacao DateTime @map("data_publicacao")
-
-
-  @@id([idUsuario,idLivro,dataPublicacao])
-
+  @@id([userId, bookId, publishDate])
 }
 
-model Carrinho{
-  id Int @id @default(autoincrement())
-
-  idUsuario Int @unique @map("id_usuario")
-  usuario Usuario @relation(fields: [idUsuario],references: [id])
-
-  // idLivro Int @unique @map("id_livro")
-
-  valorTotal Decimal @db.Money @map("valor_total")
-  quantidade Int
-  dataAdicionado DateTime @default(now()) @map("data_adicionado")
-
-  LivrosNoCarrinho LivroNoCarrinho[]
+model Cart {
+  id          Int           @id @default(autoincrement())
+  userId      Int           @unique @map("user_id")
+  user        User          @relation(fields: [userId], references: [id])
+  totalValue  Decimal       @map("total_value") @db.Money
+  quantity    Int
+  insertDate  DateTime      @default(now()) @map("insert_date")
+  booksOnCart BooksOnCart[]
 }
 
-// relacao n pra n entre carrinho e livro
-model LivroNoCarrinho{
-  idCarrinho Int @unique @map("id_carrinnho")
-  carrinho Carrinho @relation(fields: [idCarrinho],references: [id])
-  idLivro Int @unique @map("id_livro")
-  livro Livro @relation(fields: [idLivro],references: [id])
+model BooksOnCart {
+  cartId Int  @unique @map("cart_id")
+  cart   Cart @relation(fields: [cartId], references: [id])
+  bookId Int  @unique @map("book_id")
+  book   Book @relation(fields: [bookId], references: [id])
 
-  @@id([idCarrinho,idLivro])
+  @@id([cartId, bookId])
 }
 
-model Compra{
-  idUsuario Int @unique @map("id_usuario")
-  idCarrinho Int @unique @map("id_carrinho")
-  dataCompra DateTime @default(now()) @map("data_compra")
+model Purchase {
+  userId          Int              @unique @map("user_id")
+  cartId          Int              @unique @map("cart_id")
+  purchaseDate    DateTime         @default(now()) @map("purchase_date")
+  totalValue      Decimal          @map("total_value") @db.Money
+  paymentMethod   String           @map("payment_method")
+  purchasesOnUser PurchaseOnUser[]
 
-  valorPago Decimal @db.Money @map("valor_pago")
-
-  metodoPagamentoId Int @unique @map("metodo_pagamento")
-  metodoPagamento String
-
-  comprasEfetuadas CompraEfetuada[]
-
-  @@id([idUsuario,idCarrinho])
-
+  @@id([userId, cartId])
 }
 
-model CompraEfetuada{
-  idCarrinho Int @unique @map("id_carrinho")
-  idUsuario Int @unique @map("id_usuario")
-  quantidade Int
-  dataCompra DateTime @default(now()) @map("data_compra")
-  valor Decimal @db.Money
-  metodoPagamento String @map("metodo_pagamento")
+model PurchaseOnUser {
+  cartId       Int      @unique @map("cart_id")
+  userId       Int      @unique @map("user_id")
+  quantity     Int
+  purchaseDate DateTime @default(now()) @map("purchase_date")
+  amomount     Decimal  @map("ammount") @db.Money
 
-  compra Compra @relation(fields: [idCarrinho,idUsuario],references: [idCarrinho,idUsuario])
-  usuario Usuario @relation(fields: [idUsuario],references: [id])
+  purchase Purchase @relation(fields: [cartId, userId], references: [cartId, userId])
+  user     User     @relation(fields: [userId], references: [id])
 
-  @@id([idCarrinho,idUsuario])
+  @@id([cartId, userId])
 }
