@@ -16,7 +16,6 @@ import Checkbox from "../../components/Checkbox/Checkbox";
 
 const Login = () => {
   const [remember, setRemember] = React.useState(false);
-
   const {
     control,
     handleSubmit,

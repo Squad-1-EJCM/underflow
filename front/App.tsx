@@ -17,5 +17,5 @@ export default function App() {
 const Container = styled.View`
   width: 100vw;
   min-height: 100vh;
-  max-height: max-content;
+  overflow-y: scroll;
 `;

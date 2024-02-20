@@ -5,10 +5,47 @@ import Input from "../Input/Input";
 import { ButtonsContainer, Container } from "../../pages/Register/styles";
 import Button from "../Button/Button";
 import { useRegisterContext } from "../../contexts/RegisterContext";
+import axios from "axios";
 
 const AddressPage = () => {
-  const { pagination, control, handleSubmit, errors, watch } =
-    useRegisterContext();
+  const {
+    pagination,
+    control,
+    handleSubmit,
+    errors,
+    watch,
+    getValues,
+    setValue,
+  } = useRegisterContext();
+  const cepRef = React.useRef<string>();
+  cepRef.current = watch("CEP", "");
+
+  React.useEffect(() => {
+    async function getAddressData() {
+      const cep = cepRef.current;
+      console.log(cep);
+      if (cep?.length === 9) {
+        const left = cep.substring(0, 5);
+        const right = cep.substring(6, 9);
+        const formatedCep = `${left}${right}`;
+        const request = await axios.get(
+          `https://viacep.com.br/ws/${formatedCep}/json`
+        );
+        const { data, status } = request;
+        if (status === 200 && data) {
+          console.log(data);
+          if (getValues("state").length === 0) setValue("state", data.uf);
+          if (getValues("city").length === 0) setValue("city", data.localidade);
+          if (getValues("neighborhood").length === 0)
+            setValue("neighborhood", data.bairro);
+          if (getValues("street").length === 0)
+            setValue("street", data.logradouro);
+        }
+      }
+    }
+
+    getAddressData();
+  }, [cepRef.current]);
 
   return (
     <Container>
@@ -17,7 +54,7 @@ const AddressPage = () => {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              placeholder="00000-00"
+              placeholder="00000-000"
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
@@ -39,18 +76,69 @@ const AddressPage = () => {
           control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <Input
-              placeholder="Digite seu bairro"
+              placeholder="Digite seu estado"
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
               label="Estado"
-              error={errors.UF}
+              error={errors.state}
             />
           )}
           rules={{
             required: "Preencha o campo",
           }}
-          name="UF"
+          name="state"
+        />
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              placeholder="Digite sua cidade"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              label="Cidade"
+              error={errors.city}
+            />
+          )}
+          rules={{
+            required: "Preencha o campo",
+          }}
+          name="city"
+        />
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              placeholder="Digite seu bairro"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              label="Bairro"
+              error={errors.neighborhood}
+            />
+          )}
+          rules={{
+            required: "Preencha o campo",
+          }}
+          name="neighborhood"
+        />
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              placeholder="Digite sua rua"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              label="Rua"
+              error={errors.street}
+            />
+          )}
+          rules={{
+            required: "Preencha o campo",
+          }}
+          name="street"
         />
         <Controller
           control={control}
@@ -61,13 +149,13 @@ const AddressPage = () => {
               onChangeText={onChange}
               onBlur={onBlur}
               label="Número"
-              error={errors.number}
+              error={errors.houseNumber}
             />
           )}
           rules={{
             required: "Preencha o campo",
           }}
-          name="number"
+          name="houseNumber"
         />
         <Controller
           control={control}
@@ -78,10 +166,10 @@ const AddressPage = () => {
               onChangeText={onChange}
               onBlur={onBlur}
               label="Complemento"
-              error={errors.aditionalInformation}
+              error={errors.addressSuplement}
             />
           )}
-          name="aditionalInformation"
+          name="addressSuplement"
         />
 
         <ButtonsContainer>

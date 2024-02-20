@@ -26,13 +26,13 @@ const UserDataPage = () => {
               onChangeText={onChange}
               onBlur={onBlur}
               label="First name"
-              error={errors.firstName}
+              error={errors.name}
             />
           )}
           rules={{
             required: "Preencha o campo",
           }}
-          name="firstName"
+          name="name"
         />
         <Controller
           control={control}
@@ -43,13 +43,13 @@ const UserDataPage = () => {
               onChangeText={onChange}
               onBlur={onBlur}
               label="Sobrenome"
-              error={errors.secondName}
+              error={errors.lastName}
             />
           )}
           rules={{
             required: "Preencha o campo",
           }}
-          name="secondName"
+          name="lastName"
         />
         <Controller
           control={control}
@@ -61,7 +61,7 @@ const UserDataPage = () => {
               onBlur={onBlur}
               label="CPF"
               mask={{ type: "cpf", options: {} }}
-              error={errors.CPF}
+              error={errors.cpf}
             />
           )}
           rules={{
@@ -72,7 +72,7 @@ const UserDataPage = () => {
               message: "Digite um CPF válido",
             },
           }}
-          name="CPF"
+          name="cpf"
         />
         <Controller
           control={control}
