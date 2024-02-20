@@ -45,7 +45,7 @@ model Book {
   format            String
   description       String
   imgUrl            String             @map("img_url")
-  category          Category[]
+  categories         Category[]
   authors           Author[]
   userId            Int                @unique @map("user_id")
   publisherUser     User               @relation(fields: [userId], references: [id])
