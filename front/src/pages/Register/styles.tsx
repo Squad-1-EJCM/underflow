@@ -23,10 +23,11 @@ export const ButtonsContainer = styled.View`
   gap: 1rem;
 
   margin-top: 3rem;
+  margin-bottom: 4.5rem;
 `;
 
 export const LinksContainer = styled.View`
-  margin-top: 4.5rem;
+  //margin-top: 4.5rem;
 `;
 
 export const Detail = styled.Image`

@@ -10,7 +10,7 @@ export const Container = styled.View`
   background: #f1f4ff;
 
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
 `;
 
