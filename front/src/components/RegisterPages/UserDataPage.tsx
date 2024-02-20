@@ -12,6 +12,7 @@ const UserDataPage = () => {
 
   function onSubmit(data: any) {
     console.log(data);
+    pagination.goNext();
   }
 
   return (

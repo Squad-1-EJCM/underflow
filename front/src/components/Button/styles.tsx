@@ -4,15 +4,27 @@ export interface BtnStyledInterface {
   background?: string;
   color?: string;
   font?: string;
+  radius?: string;
   padding?: string;
+  paddingTop?: string;
+  paddingBottom?: string;
+  paddingLeft?: string;
+  paddingRight?: string;
 }
 
 export const Btn = styled.Pressable<BtnStyledInterface>`
   background: ${({ background }) => (background ? background : "#023E8A")};
-  padding: ${({ padding }) => (padding ? padding : ".975rem")};
+  padding-right: ${({ paddingRight, padding }) =>
+    paddingRight ? paddingRight : padding ? padding : ".975rem"};
+  padding-left: ${({ paddingLeft, padding }) =>
+    paddingLeft ? paddingLeft : padding ? padding : ".975rem"};
+  padding-top: ${({ paddingTop, padding }) =>
+    paddingTop ? paddingTop : padding ? padding : ".975rem"};
+  padding-bottom: ${({ paddingBottom, padding }) =>
+    paddingBottom ? paddingBottom : padding ? padding : ".975rem"};
 
   width: 100%;
-  border-radius: 0.75rem;
+  border-radius: ${({ radius }) => (radius ? radius : "0.75rem")};
 
   display: flex;
   align-items: center;

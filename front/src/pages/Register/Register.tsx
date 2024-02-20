@@ -4,10 +4,16 @@ import AddressPage from "../../components/RegisterPages/AddressPage";
 import { useRegisterContext } from "../../contexts/RegisterContext";
 import UserDataPage from "../../components/RegisterPages/UserDataPage";
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
+import SuccessPage from "../../components/SuccessPage/SuccessPage";
 
 const Register = () => {
   const { pagination } = useRegisterContext();
-  const pages = [<AuthPage />, <AddressPage />, <UserDataPage />];
+  const pages = [
+    <AuthPage />,
+    <AddressPage />,
+    <UserDataPage />,
+    <SuccessPage />,
+  ];
   const [progress, setProgress] = React.useState(() => pagination.page / 3);
 
   React.useEffect(() => {
@@ -18,7 +24,7 @@ const Register = () => {
   return (
     <>
       {pages[pagination.page]}
-      <ProgressBar progress={progress} />
+      {progress < 1 ? <ProgressBar progress={progress} /> : null}
     </>
   );
 };

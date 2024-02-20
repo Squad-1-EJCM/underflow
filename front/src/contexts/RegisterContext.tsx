@@ -199,7 +199,7 @@ const RegisterContextProvider = ({ children }: React.PropsWithChildren) => {
     },
   });
 
-  const pagination = usePagination(3);
+  const pagination = usePagination(4);
 
   return (
     <RegisterContext.Provider
