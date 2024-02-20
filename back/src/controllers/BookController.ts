@@ -36,16 +36,16 @@ class BookController {
         },
       });
 
-      await Promise.all(
-        categories.map((category: string) => {
-          prisma.category.create({
-            data: {
-              bookId: createdBook.id,
-              category: category,
-            },
-          });
-        })
-      );
+      // await Promise.all(
+      //   categories.map((category: string) => {
+      //     prisma.category.create({
+      //       data: {
+      //         bookId: createdBook.id,
+      //         category: category,
+      //       },
+      //     });
+      //   })
+      // );
 
       return res.status(201).json(createdBook);
     } catch (error: any) {
@@ -53,24 +53,38 @@ class BookController {
     }
   }
 
-  async showAll(req:Request, res:Response){
-    try{
-        const AllBooks = await prisma.book.findMany()
+  async showAll(req: Request, res: Response) {
+    try {
+      const AllBooks = await prisma.book.findMany();
 
-        return res.status(201).json(AllBooks)
-
+      return res.status(201).json(AllBooks);
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
   }
 
+  // TODO: Vou precisar mesclar com o controller de categorias pra colocar as categorias do livro dentro do json de detalhes
+  async detail(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
 
-  async update(req:Request, res:Response){
-    try{
+      const foundBook = await prisma.book.findUnique({
+        where: {
+          id: Number(id),
+        },
+      });
 
-      const defaultImgUrl = "" // TODO: Gerenciar upload de imagens
-      const {id} = req.params
-     
+      return res.status(201).json(foundBook);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
+  async update(req: Request, res: Response) {
+    try {
+      const defaultImgUrl = ""; // TODO: Gerenciar upload de imagens
+      const { id } = req.params;
+
       const {
         title,
         price,
@@ -94,9 +108,10 @@ class BookController {
           format: format,
           description: description,
           imgUrl: defaultImgUrl,
-        },where:{
-          id: Number(id)
-        }
+        },
+        where: {
+          id: Number(id),
+        },
       });
 
       await Promise.all(
@@ -105,38 +120,35 @@ class BookController {
             data: {
               bookId: Number(id),
               category: category,
-            },where:{
-              bookId:Number(id)
-            }
+            },
+            where: {
+              bookId: Number(id),
+            },
           });
         })
       );
 
-      return res.status(201).json(updatedBook)
-
-    }catch(error:any){
+      return res.status(201).json(updatedBook);
+    } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
   }
 
-  async deleteBook(req:Request, res:Response){
-    try{
-      const {id} = req.params
+  async deleteBook(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
 
       const deletedBook = await prisma.book.delete({
-        where:{
-          id:Number(id)
-        }
-      })
+        where: {
+          id: Number(id),
+        },
+      });
 
-      return res.status(201).json(deletedBook)
-
-    }catch(error:any){
+      return res.status(201).json(deletedBook);
+    } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
   }
-
-
 }
 
 export default new BookController();
