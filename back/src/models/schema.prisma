@@ -106,6 +106,7 @@ model Cart {
   totalValue   Decimal       @map("total_value") @db.Money
   creationDate DateTime      @default(now()) @map("creation_date")
   booksOnCart  BooksOnCart[]
+  
 
   @@map("cart")
 }
