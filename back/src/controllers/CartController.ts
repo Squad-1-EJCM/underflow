@@ -80,21 +80,20 @@ class CartController {
       });
       let newTotalValue;
       if (book && cart) {
-
         newTotalValue = cart.totalValue;
         newTotalValue = newTotalValue.plus(book.price.times(ammount));
-
-      }else{
-        return res.status(401).json("{error:{ message:\"No such items\" }")
+      } else {
+        return res.status(401).json('{error:{ message:"No such items" }');
       }
 
-    const updatedCart = await prisma.cart.update({
-        where:{
-          id:Number(cartId)
-        },data:{
-          totalValue:newTotalValue
-        }
-      })
+      const updatedCart = await prisma.cart.update({
+        where: {
+          id: Number(cartId),
+        },
+        data: {
+          totalValue: newTotalValue,
+        },
+      });
 
       const newBookOnCart = await prisma.booksOnCart.create({
         data: {
@@ -118,15 +117,34 @@ class CartController {
     }
   }
 
-  async getBooksOnCart(req:Request,res:Response){
-    try{
+  async getBooksOnCart(req: Request, res: Response) {
+    try {
+      const { cartId } = req.params;
 
-    }catch(error:any){
-      
+      const booksOnCart = await prisma.booksOnCart.findMany({
+        where: {
+          cartId: Number(cartId),
+        },
+        include: {
+          book: {
+            select: {
+              id: true,
+              title: true,
+              price: true,
+              discount: true,
+              imgUrl: true,
+            },
+          },
+        },
+      });
+
+      return res.status(201).json(booksOnCart);
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
     }
   }
 
-  async updateBookOnCart(req:Request, res:Response){
+  async updateBookOnCart(req: Request, res: Response) {
     try {
       const { cartId } = req.params;
       const { bookId, ammount: newAmmount } = req.body;
@@ -144,21 +162,20 @@ class CartController {
       });
       let newTotalValue;
       if (book && cart) {
-
         newTotalValue = cart.totalValue;
         newTotalValue = newTotalValue.plus(book.price.times(newAmmount));
-
-      }else{
-        return res.status(401).json("{error:{ message:\"No such items\" }")
+      } else {
+        return res.status(401).json('{error:{ message:"No such items" }');
       }
 
-    const updatedCart = await prisma.cart.update({
-        where:{
-          id:Number(cartId)
-        },data:{
-          totalValue:newTotalValue
-        }
-      })
+      const updatedCart = await prisma.cart.update({
+        where: {
+          id: Number(cartId),
+        },
+        data: {
+          totalValue: newTotalValue,
+        },
+      });
 
       const updatedBookOnCart = await prisma.booksOnCart.update({
         data: {
@@ -173,23 +190,65 @@ class CartController {
               id: bookId,
             },
           },
-        },where:{
-          cartId:Number(cartId),
-          bookId:bookId
-        }
+        },
+        where: {
+          cartId: Number(cartId),
+          bookId: bookId,
+        },
       });
 
       return res.status(201).json(updatedBookOnCart);
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
-    
-    
   }
 
+  async deleteBookFromCart(req: Request, res: Response) {
+    try {
+      const { cartId } = req.params;
+      const { bookId } = req.body;
 
+      const deletedBookOnCart = await prisma.booksOnCart.delete({
+        where: {
+          cartId: Number(cartId),
+          bookId: bookId,
+        },
+      });
 
+      if (deletedBookOnCart) {
+        return res.status(201).json(deletedBookOnCart);
+      } else {
+        return res.status(404).json({ error: "No such item" });
+      }
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
 
+  async deleteCart(req: Request, res: Response) {
+    try {
+      const { cartId } = req.params;
+
+      const deletedBookOnCart = await prisma.booksOnCart.deleteMany({
+        where: {
+          cartId: Number(cartId),
+        },
+      });
+
+      if (!deletedBookOnCart) {
+        return res.status(404).json({ error: "Cart not found" });
+      }
+      const deletedCart = await prisma.cart.delete({
+        where: {
+          id: Number(cartId),
+        },
+      });
+
+      return res.status(201).json(deletedCart);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
 }
 
 export default new CartController();
