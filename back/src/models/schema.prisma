@@ -38,7 +38,7 @@ model Book {
   id          Int      @id @default(autoincrement())
   title       String
   price       Decimal  @db.Money
-  discount    Decimal?  @db.Money
+  discount    Decimal? @db.Money
   publishDate DateTime @default(now()) @map("publish_date")
   edition     String
   language    String
