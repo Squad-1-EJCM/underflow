@@ -10,50 +10,52 @@ datasource db {
 }
 
 model User {
-  id                Int      @id @default(autoincrement())
-  cpf               String   @unique
-  email             String   @unique
+  id                Int                @id @default(autoincrement())
+  cpf               String             @unique
+  email             String             @unique
   name              String
-  lastName          String   @map("last_name")
+  lastName          String             @map("last_name")
   salt              String
-  hassPassword      String   @map("hash_password")
+  hassPassword      String             @map("hash_password")
   state             String
   city              String
   neighborhood      String
   cep               String
   street            String
-  houseNumber       String   @map("house_number")
-  addressSupplement String?  @map("address_supplement")
-  birthday          DateTime @map("birthday")
-  phoneNumber       String   @unique @map("phone_number")
-  imgUrl            String?  @map("img_url")
+  houseNumber       String             @map("house_number")
+  addressSupplement String?            @map("address_supplement")
+  birthday          DateTime           @map("birthday")
+  phoneNumber       String             @unique @map("phone_number")
+  imgUrl            String?            @map("img_url")
+  publishedBooks    Book[]
+  favoritedBooks    BooksOnFavorites[]
+  commentedBooks    UsersOnComments[]
+  carts             Cart[]
+  purchasesMade     PurchaseOnUser[]
 
-  publishedBooks Book[]
-  favoritedBooks BooksOnFavorites[]
-  commentedBooks UsersOnComments[]
-  carts          Cart[]
-  purchasesMade  PurchaseOnUser[]
+  @@map("user")
 }
 
 model Book {
-  id          Int      @id @default(autoincrement())
-  title       String
-  price       Decimal  @db.Money
-  discount    Decimal? @db.Money
-  publishDate DateTime @default(now()) @map("publish_date")
-  edition     String
-  language    String
-  condition   String
-  format      String
-  description String
-  imgUrl      String   @map("img_url")
-  userId      Int      @unique @map("user_id")
-
+  id                Int                @id @default(autoincrement())
+  title             String
+  price             Decimal            @db.Money
+  discount          Decimal?           @db.Money
+  publishDate       DateTime           @default(now()) @map("publish_date")
+  edition           String
+  language          String
+  condition         String
+  format            String
+  description       String
+  imgUrl            String             @map("img_url")
+  userId            Int                @unique @map("user_id")
   categories        Category[]
   authors           String[]
   publisherUser     User               @relation(fields: [userId], references: [id])
   usersWhoFavorited BooksOnFavorites[]
   booksOnCart       BooksOnCart[]
+
+  @@map("book")
 }
 
 model Category {
@@ -62,6 +64,7 @@ model Category {
   category String
 
   @@id([bookId, category])
+  @@map("category")
 }
 
 model BooksOnFavorites {
@@ -71,6 +74,7 @@ model BooksOnFavorites {
   favoritedBook Book @relation(fields: [bookId], references: [id])
 
   @@id([userId, bookId])
+  @@map("books_on_favorites")
 }
 
 model Comment {
@@ -81,6 +85,7 @@ model Comment {
   usersOnComments UsersOnComments[]
 
   @@id([userId, bookId, publish_date])
+  @@map("comment")
 }
 
 model UsersOnComments {
@@ -91,25 +96,30 @@ model UsersOnComments {
   comment     Comment  @relation(fields: [userId, bookId, publishDate], references: [userId, bookId, publish_date])
 
   @@id([userId, bookId, publishDate])
+  @@map("user_on_comment")
 }
 
 model Cart {
-  id          Int           @id @default(autoincrement())
-  userId      Int           @unique @map("user_id")
-  user        User          @relation(fields: [userId], references: [id])
-  totalValue  Decimal       @map("total_value") @db.Money
-  quantity    Int
-  insertDate  DateTime      @default(now()) @map("insert_date")
-  booksOnCart BooksOnCart[]
+  id           Int           @id @default(autoincrement())
+  userId       Int           @unique @map("user_id")
+  user         User          @relation(fields: [userId], references: [id])
+  totalValue   Decimal       @map("total_value") @db.Money
+  creationDate DateTime      @default(now()) @map("creation_date")
+  booksOnCart  BooksOnCart[]
+
+  @@map("cart")
 }
 
 model BooksOnCart {
-  cartId Int  @unique @map("cart_id")
-  cart   Cart @relation(fields: [cartId], references: [id])
-  bookId Int  @unique @map("book_id")
-  book   Book @relation(fields: [bookId], references: [id])
+  cartId        Int      @unique @map("cart_id")
+  cart          Cart     @relation(fields: [cartId], references: [id])
+  bookId        Int      @unique @map("book_id")
+  book          Book     @relation(fields: [bookId], references: [id])
+  ammonut       Int
+  insertionDate DateTime @default(now()) @map("insertion_date")
 
   @@id([cartId, bookId])
+  @@map("books_on_cart")
 }
 
 model Purchase {
@@ -121,17 +131,17 @@ model Purchase {
   purchasesOnUser PurchaseOnUser[]
 
   @@id([userId, cartId])
+  @@map("purchase")
 }
 
 model PurchaseOnUser {
   cartId       Int      @unique @map("cart_id")
   userId       Int      @unique @map("user_id")
-  quantity     Int
   purchaseDate DateTime @default(now()) @map("purchase_date")
-  amomount     Decimal  @map("ammount") @db.Money
-
-  purchase Purchase @relation(fields: [cartId, userId], references: [cartId, userId])
-  user     User     @relation(fields: [userId], references: [id])
+  amomount     Int      @map("ammount")
+  purchase     Purchase @relation(fields: [cartId, userId], references: [cartId, userId])
+  user         User     @relation(fields: [userId], references: [id])
 
   @@id([cartId, userId])
+  @@map("purchase_on_user")
 }
