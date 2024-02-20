@@ -48,18 +48,10 @@ model Book {
   userId      Int      @unique @map("user_id")
 
   categories        Category[]
-  authors           Author[]
+  authors           String[]
   publisherUser     User               @relation(fields: [userId], references: [id])
   usersWhoFavorited BooksOnFavorites[]
   booksOnCart       BooksOnCart[]
-}
-
-model Author {
-  bookId Int    @unique @map("book_id")
-  book   Book   @relation(fields: [bookId], references: [id])
-  author String
-
-  @@id([bookId, author])
 }
 
 model Category {
