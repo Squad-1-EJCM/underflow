@@ -36,6 +36,7 @@ CREATE TABLE "book" (
     "img_url" TEXT NOT NULL,
     "user_id" INTEGER NOT NULL,
     "authors" TEXT[],
+    "has_been_purchased" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "book_pkey" PRIMARY KEY ("id")
 );
@@ -81,6 +82,7 @@ CREATE TABLE "cart" (
     "user_id" INTEGER NOT NULL,
     "total_value" MONEY NOT NULL,
     "creation_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "purchase_made" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "cart_pkey" PRIMARY KEY ("id")
 );

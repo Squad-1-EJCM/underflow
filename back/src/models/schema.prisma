@@ -54,6 +54,7 @@ model Book {
   publisherUser     User               @relation(fields: [userId], references: [id])
   usersWhoFavorited BooksOnFavorites[]
   booksOnCart       BooksOnCart[]
+  hasBeenpurchased  Boolean            @default(false) @map("has_been_purchased")
 
   @@map("book")
 }
@@ -106,6 +107,7 @@ model Cart {
   totalValue   Decimal       @map("total_value") @db.Money
   creationDate DateTime      @default(now()) @map("creation_date")
   booksOnCart  BooksOnCart[]
+  purchaseMade Boolean       @default(false) @map("purchase_made")
 
   @@map("cart")
 }
