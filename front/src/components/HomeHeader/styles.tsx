@@ -4,7 +4,7 @@ export const HeaderView = styled.View`
   background-color: #f1f4ff;
   display: flex;
   width: 100vw;
-  height: 10vh;
+  height: 66px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -27,4 +27,4 @@ export const PhotoView = styled.View`
 export const ProfilePhoto = styled.Image`
   width: 41px;
   height: 41px;
-`
+`;
