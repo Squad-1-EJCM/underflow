@@ -59,7 +59,7 @@ const Input = ({
         <InputField
           placeholder={placeholder}
           value={value}
-          onChangeText={(text: string) => onChangeText(value)}
+          onChangeText={(text: string) => onChangeText(text)}
           onBlur={onBlur}
           {...args}
         />
