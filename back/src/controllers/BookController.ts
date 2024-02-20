@@ -54,9 +54,9 @@ class BookController {
   async show(req: Request, res: Response) {
     try {
       const AllBooks = await prisma.book.findMany({
-        where:{
-          hasBeenpurchased:false
-        }
+        where: {
+          hasBeenpurchased: false,
+        },
       });
 
       return res.status(201).json(AllBooks);
@@ -64,8 +64,6 @@ class BookController {
       return res.status(500).json({ error: error.message });
     }
   }
-
-
 
   async detail(req: Request, res: Response) {
     try {
@@ -134,7 +132,11 @@ class BookController {
         })
       );
 
-      return res.status(201).json(updatedBook);
+      if (updatedBook) {
+        return res.status(201).json(updatedBook);
+      } else {
+        return res.status(404).json({ error: "Book not found" });
+      }
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
@@ -150,7 +152,11 @@ class BookController {
         },
       });
 
-      return res.status(201).json(deletedBook);
+      if (deletedBook) {
+        return res.status(201).json(deletedBook);
+      } else {
+        return res.status(404).json({ error: "Book not found" });
+      }
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }

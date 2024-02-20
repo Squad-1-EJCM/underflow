@@ -123,7 +123,12 @@ class UserController {
         },
       });
 
-      return res.status(201).json(updatedUser);
+      if(updatedUser){
+        return res.status(201).json(updatedUser);
+      }else{
+        return res.status(404).json({error:"Book not found"})
+      }
+
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
