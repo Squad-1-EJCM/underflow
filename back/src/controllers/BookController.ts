@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import CategoryController from "./CategoryController";
 
 const prisma = new PrismaClient();
 
@@ -12,6 +13,7 @@ class BookController {
       const {
         title,
         price,
+        discount,
         edition,
         authors,
         categories,
@@ -25,6 +27,7 @@ class BookController {
         data: {
           title: title,
           price: price,
+          discount:discount,
           edition: edition,
           authors: authors,
           language: language,
@@ -36,16 +39,8 @@ class BookController {
         },
       });
 
-      // await Promise.all(
-      //   categories.map((category: string) => {
-      //     prisma.category.create({
-      //       data: {
-      //         bookId: createdBook.id,
-      //         category: category,
-      //       },
-      //     });
-      //   })
-      // );
+     CategoryController.createManyFromArray(categories,createdBook.id)
+
 
       return res.status(201).json(createdBook);
     } catch (error: any) {
@@ -71,7 +66,9 @@ class BookController {
       const foundBook = await prisma.book.findUnique({
         where: {
           id: Number(id),
-        },
+        },include:{
+          categories:true
+        }
       });
 
       return res.status(201).json(foundBook);
