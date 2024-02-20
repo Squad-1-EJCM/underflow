@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import UserController from "./UserController";
 
 const prisma = new PrismaClient();
 
@@ -10,6 +9,16 @@ class CartController {
       const { userId } = req.params;
 
       const totalValue = 0;
+
+      const currentCart = await prisma.cart.findUnique({
+        where: {
+          userId: Number(userId),
+          purchaseMade: false,
+        },
+      });
+
+      if (currentCart)
+        return res.status(403).json({ error: "An active cart already exits" });
 
       const createdCart = await prisma.cart.create({
         data: {
@@ -50,9 +59,7 @@ class CartController {
       const currentCart = await prisma.cart.findFirst({
         where: {
           userId: Number(userId),
-        },
-        orderBy: {
-          creationDate: "desc",
+          purchaseMade: false,
         },
       });
 

@@ -65,6 +65,26 @@ class BookController {
     }
   }
 
+  async showNewBooks(req: Request, res: Response) {
+    try {
+      const { numberOfBooksOnList } = req.params;
+
+      const newBooks = await prisma.book.findMany({
+        where: {
+          hasBeenpurchased: false,
+        },
+        orderBy: {
+          publishDate: "desc",
+        },
+        take: Number(numberOfBooksOnList),
+      });
+
+      return res.status(201).json(newBooks);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
   async detail(req: Request, res: Response) {
     try {
       const { id } = req.params;
