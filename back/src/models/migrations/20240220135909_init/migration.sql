@@ -1,100 +1,16 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Autor` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Carrinho` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Categoria` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Comentario` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `ComentariosPostados` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Compra` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `CompraEfetuada` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Livro` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `LivroFavoritado` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `LivroNoCarrinho` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Usuario` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropForeignKey
-ALTER TABLE "Autor" DROP CONSTRAINT "Autor_id_livro_fkey";
-
--- DropForeignKey
-ALTER TABLE "Carrinho" DROP CONSTRAINT "Carrinho_id_usuario_fkey";
-
--- DropForeignKey
-ALTER TABLE "Categoria" DROP CONSTRAINT "Categoria_id_livro_fkey";
-
--- DropForeignKey
-ALTER TABLE "ComentariosPostados" DROP CONSTRAINT "ComentariosPostados_id_usuario_fkey";
-
--- DropForeignKey
-ALTER TABLE "ComentariosPostados" DROP CONSTRAINT "ComentariosPostados_id_usuario_id_livro_data_publicacao_fkey";
-
--- DropForeignKey
-ALTER TABLE "CompraEfetuada" DROP CONSTRAINT "CompraEfetuada_id_carrinho_id_usuario_fkey";
-
--- DropForeignKey
-ALTER TABLE "CompraEfetuada" DROP CONSTRAINT "CompraEfetuada_id_usuario_fkey";
-
--- DropForeignKey
-ALTER TABLE "Livro" DROP CONSTRAINT "Livro_usuario_publicador_fkey";
-
--- DropForeignKey
-ALTER TABLE "LivroFavoritado" DROP CONSTRAINT "LivroFavoritado_idLivro_fkey";
-
--- DropForeignKey
-ALTER TABLE "LivroFavoritado" DROP CONSTRAINT "LivroFavoritado_idusuario_fkey";
-
--- DropForeignKey
-ALTER TABLE "LivroNoCarrinho" DROP CONSTRAINT "LivroNoCarrinho_id_carrinnho_fkey";
-
--- DropForeignKey
-ALTER TABLE "LivroNoCarrinho" DROP CONSTRAINT "LivroNoCarrinho_id_livro_fkey";
-
--- DropTable
-DROP TABLE "Autor";
-
--- DropTable
-DROP TABLE "Carrinho";
-
--- DropTable
-DROP TABLE "Categoria";
-
--- DropTable
-DROP TABLE "Comentario";
-
--- DropTable
-DROP TABLE "ComentariosPostados";
-
--- DropTable
-DROP TABLE "Compra";
-
--- DropTable
-DROP TABLE "CompraEfetuada";
-
--- DropTable
-DROP TABLE "Livro";
-
--- DropTable
-DROP TABLE "LivroFavoritado";
-
--- DropTable
-DROP TABLE "LivroNoCarrinho";
-
--- DropTable
-DROP TABLE "Usuario";
-
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
-    "cpf" INTEGER NOT NULL,
+    "cpf" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "lastName" TEXT NOT NULL,
+    "last_name" TEXT NOT NULL,
     "salt" TEXT NOT NULL,
     "hash_password" TEXT NOT NULL,
     "state" TEXT NOT NULL,
     "city" TEXT NOT NULL,
     "neighborhood" TEXT NOT NULL,
+    "cep" TEXT NOT NULL,
     "street" TEXT NOT NULL,
     "house_number" TEXT NOT NULL,
     "address_supplement" TEXT,
@@ -109,8 +25,8 @@ CREATE TABLE "User" (
 CREATE TABLE "Book" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
-    "author" TEXT[],
     "price" MONEY NOT NULL,
+    "discount" MONEY,
     "publish_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "edition" TEXT NOT NULL,
     "language" TEXT NOT NULL,
@@ -119,16 +35,9 @@ CREATE TABLE "Book" (
     "description" TEXT NOT NULL,
     "img_url" TEXT NOT NULL,
     "user_id" INTEGER NOT NULL,
+    "authors" TEXT[],
 
     CONSTRAINT "Book_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Author" (
-    "book_id" INTEGER NOT NULL,
-    "author" TEXT NOT NULL,
-
-    CONSTRAINT "Author_pkey" PRIMARY KEY ("book_id","author")
 );
 
 -- CreateTable
@@ -220,9 +129,6 @@ CREATE UNIQUE INDEX "User_phone_number_key" ON "User"("phone_number");
 CREATE UNIQUE INDEX "Book_user_id_key" ON "Book"("user_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Author_book_id_key" ON "Author"("book_id");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Category_book_id_key" ON "Category"("book_id");
 
 -- CreateIndex
@@ -266,9 +172,6 @@ CREATE UNIQUE INDEX "PurchaseOnUser_user_id_key" ON "PurchaseOnUser"("user_id");
 
 -- AddForeignKey
 ALTER TABLE "Book" ADD CONSTRAINT "Book_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Author" ADD CONSTRAINT "Author_book_id_fkey" FOREIGN KEY ("book_id") REFERENCES "Book"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Category" ADD CONSTRAINT "Category_book_id_fkey" FOREIGN KEY ("book_id") REFERENCES "Book"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

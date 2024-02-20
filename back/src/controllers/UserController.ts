@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-
+// TODO: Fazera logica pra mostrar livros publicados
+// Se der tempo: Fazer a logica de favoritos tambem
 class UserController {
   createHash(senha: string, salt: string): string {
     return "TODO: Fazer a logica de hasheamento e autenticacao";
@@ -20,13 +21,14 @@ class UserController {
         city,
         neighborhood,
         street,
+        cep,
         houseNumber,
         addressSupplement,
         birthday,
         phoneNumber,
       } = req.body;
 
-      const salt = "asdasd";
+      const salt = "asdasd"; // TODO: Fazer Autenticacao
 
       const hashPassword = this.createHash(password, salt);
       // TODO Fazer a Autenticacao
@@ -41,6 +43,7 @@ class UserController {
           salt: salt,
           state: state,
           city: city,
+          cep: cep,
           neighborhood: neighborhood,
           street: street,
           houseNumber: houseNumber,
@@ -125,6 +128,7 @@ class UserController {
       return res.status(500).json({ error: error.message });
     }
   }
+
 
   async delete(req: Request, res: Response) {
     try {

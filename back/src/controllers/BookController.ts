@@ -35,11 +35,11 @@ class BookController {
           format: format,
           description: description,
           imgUrl: defaultImgUrl,
-          publisherUser:{
-            connect:{
-              id:Number(userId)
-            }
-          }
+          publisherUser: {
+            connect: {
+              id: Number(userId),
+            },
+          },
         },
       });
 
@@ -61,7 +61,6 @@ class BookController {
     }
   }
 
-  // TODO: Vou precisar mesclar com o controller de categorias pra colocar as categorias do livro dentro do json de detalhes
   async detail(req: Request, res: Response) {
     try {
       const { id } = req.params;
