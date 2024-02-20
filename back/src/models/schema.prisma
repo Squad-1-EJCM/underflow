@@ -35,30 +35,23 @@ model User {
 }
 
 model Book {
-  id                Int                @id @default(autoincrement())
-  title             String
-  price             Decimal            @db.Money
-  publishDate       DateTime           @default(now()) @map("publish_date")
-  edition           String
-  language          String
-  condition         String
-  format            String
-  description       String
-  imgUrl            String             @map("img_url")
-  categories         Category[]
-  authors           Author[]
-  userId            Int                @unique @map("user_id")
+  id          Int      @id @default(autoincrement())
+  title       String
+  price       Decimal  @db.Money
+  publishDate DateTime @default(now()) @map("publish_date")
+  edition     String
+  language    String
+  condition   String
+  format      String
+  description String
+  imgUrl      String   @map("img_url")
+  userId      Int      @unique @map("user_id")
+
+  categories        Category[]
+  authors           String[]
   publisherUser     User               @relation(fields: [userId], references: [id])
   usersWhoFavorited BooksOnFavorites[]
   booksOnCart       BooksOnCart[]
-}
-
-model Author {
-  bookId Int    @unique @map("book_id")
-  book   Book   @relation(fields: [bookId], references: [id])
-  author String
-
-  @@id([bookId, author])
 }
 
 model Category {

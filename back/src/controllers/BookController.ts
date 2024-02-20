@@ -26,6 +26,7 @@ class BookController {
           title: title,
           price: price,
           edition: edition,
+          authors: authors,
           language: language,
           condition: condition,
           format: format,
@@ -34,17 +35,6 @@ class BookController {
           imgUrl: defaultImgUrl,
         },
       });
-
-      await Promise.all(
-        authors.map((author: string) => {
-          prisma.author.create({
-            data: {
-              bookId: createdBook.id,
-              author: author,
-            },
-          });
-        })
-      );
 
       await Promise.all(
         categories.map((category: string) => {
@@ -70,6 +60,78 @@ class BookController {
         return res.status(201).json(AllBooks)
 
     } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
+
+  async update(req:Request, res:Response){
+    try{
+
+      const defaultImgUrl = "" // TODO: Gerenciar upload de imagens
+      const {id} = req.params
+     
+      const {
+        title,
+        price,
+        edition,
+        authors,
+        categories,
+        language,
+        condition,
+        format,
+        description,
+      } = req.body;
+
+      const updatedBook = await prisma.book.update({
+        data: {
+          title: title,
+          price: price,
+          edition: edition,
+          authors: authors,
+          language: language,
+          condition: condition,
+          format: format,
+          description: description,
+          imgUrl: defaultImgUrl,
+        },where:{
+          id: Number(id)
+        }
+      });
+
+      await Promise.all(
+        categories.map((category: string) => {
+          prisma.category.update({
+            data: {
+              bookId: Number(id),
+              category: category,
+            },where:{
+              bookId:Number(id)
+            }
+          });
+        })
+      );
+
+      return res.status(201).json(updatedBook)
+
+    }catch(error:any){
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
+  async deleteBook(req:Request, res:Response){
+    try{
+      const {id} = req.params
+
+      const deletedBook = await prisma.book.delete({
+        where:{
+          id:Number(id)
+        }
+      })
+
+      return res.status(201).json(deletedBook)
+
+    }catch(error:any){
       return res.status(500).json({ error: error.message });
     }
   }
