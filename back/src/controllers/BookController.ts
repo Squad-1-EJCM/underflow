@@ -27,20 +27,23 @@ class BookController {
         data: {
           title: title,
           price: price,
-          discount:discount,
+          discount: discount,
           edition: edition,
           authors: authors,
           language: language,
           condition: condition,
           format: format,
           description: description,
-          userId: Number(userId),
           imgUrl: defaultImgUrl,
+          publisherUser:{
+            connect:{
+              id:Number(userId)
+            }
+          }
         },
       });
 
-     CategoryController.createManyFromArray(categories,createdBook.id)
-
+      CategoryController.createManyFromArray(categories, createdBook.id);
 
       return res.status(201).json(createdBook);
     } catch (error: any) {
@@ -66,9 +69,10 @@ class BookController {
       const foundBook = await prisma.book.findUnique({
         where: {
           id: Number(id),
-        },include:{
-          categories:true
-        }
+        },
+        include: {
+          categories: true,
+        },
       });
 
       return res.status(201).json(foundBook);
