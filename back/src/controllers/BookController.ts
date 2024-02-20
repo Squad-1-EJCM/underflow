@@ -51,15 +51,21 @@ class BookController {
     }
   }
 
-  async showAll(req: Request, res: Response) {
+  async show(req: Request, res: Response) {
     try {
-      const AllBooks = await prisma.book.findMany();
+      const AllBooks = await prisma.book.findMany({
+        where:{
+          hasBeenpurchased:false
+        }
+      });
 
       return res.status(201).json(AllBooks);
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
   }
+
+
 
   async detail(req: Request, res: Response) {
     try {

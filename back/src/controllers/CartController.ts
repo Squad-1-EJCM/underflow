@@ -62,7 +62,7 @@ class CartController {
     }
   }
 
-  async insertProductOnCart(req: Request, res: Response) {
+  async insertBookOnCart(req: Request, res: Response) {
     try {
       const { cartId } = req.params;
       const { bookId, ammount } = req.body;
@@ -117,6 +117,79 @@ class CartController {
       return res.status(500).json({ error: error.message });
     }
   }
+
+  async getBooksOnCart(req:Request,res:Response){
+    try{
+
+    }catch(error:any){
+      
+    }
+  }
+
+  async updateBookOnCart(req:Request, res:Response){
+    try {
+      const { cartId } = req.params;
+      const { bookId, ammount: newAmmount } = req.body;
+
+      const cart = await prisma.cart.findUnique({
+        where: {
+          id: Number(cartId),
+        },
+      });
+
+      const book = await prisma.book.findUnique({
+        where: {
+          id: bookId,
+        },
+      });
+      let newTotalValue;
+      if (book && cart) {
+
+        newTotalValue = cart.totalValue;
+        newTotalValue = newTotalValue.plus(book.price.times(newAmmount));
+
+      }else{
+        return res.status(401).json("{error:{ message:\"No such items\" }")
+      }
+
+    const updatedCart = await prisma.cart.update({
+        where:{
+          id:Number(cartId)
+        },data:{
+          totalValue:newTotalValue
+        }
+      })
+
+      const updatedBookOnCart = await prisma.booksOnCart.update({
+        data: {
+          ammonut: newAmmount,
+          cart: {
+            connect: {
+              id: Number(cartId),
+            },
+          },
+          book: {
+            connect: {
+              id: bookId,
+            },
+          },
+        },where:{
+          cartId:Number(cartId),
+          bookId:bookId
+        }
+      });
+
+      return res.status(201).json(updatedBookOnCart);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+    
+    
+  }
+
+
+
+
 }
 
 export default new CartController();
