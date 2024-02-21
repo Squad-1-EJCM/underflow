@@ -38,8 +38,36 @@ class PurchaseController {
     
       // TODO: ATUALIZAR CADA LIVRO NO CARRINHO PARA "JA COMPRADO"
 
+      const booksOnPurchase = await prisma.booksOnCart.findMany({
+        where:{
+          cartId:Number(cardId)
+        },
+        select:{
+          bookId:true
+        }
+      })
 
-      // TODO: ATUALIZAR CARRINHO PARA JA COMPRADO
+      await Promise.all(
+        booksOnPurchase.map((book) => {
+          prisma.book.update({
+            data: {
+              hasBeenpurchased:true
+            },where:{
+              id:book.bookId
+            }
+          });
+        })
+      );
+
+      
+      const updatedCart = await prisma.cart.update({
+        data:{
+          purchaseMade:true
+        },
+        where:{
+          id:Number(cardId)
+        }
+      })
 
       return res.status(201).json(createdPurchase)
 

@@ -42,6 +42,7 @@ class CategoryController {
           });
         })
       );
+      
     } catch (error: any) {}
   }
 
