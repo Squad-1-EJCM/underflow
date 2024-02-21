@@ -18,7 +18,7 @@ class CartController {
       });
 
       if (currentCart)
-        return res.status(403).json({ error: "An active cart already exits" });
+        return res.status(406).json({ error: "An active cart already exits" });
 
       const createdCart = await prisma.cart.create({
         data: {
