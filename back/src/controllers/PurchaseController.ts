@@ -18,28 +18,26 @@ class PurchaseController {
       if (!currentCart)
         return res.status(404).json({ error: "Cart not found" });
 
-    //   const createdPurchase = await prisma.purchase.create({
-    //     data: {
-    //       userId: currentCart.userId,
-    //       cartId: currentCart.id,
-    //       totalValue: currentCart.totalValue,
-    //       paymentMethod: paymentMethod,
-    //       purchasesOnUser:{
-    //         create:{
-    //             cartId:currentCart.id,
-                
-                
-    //             user:{
-    //                 connect:{
-    //                     id:currentCart.userId
-    //                 }
-    //             }
-    //         }
-    //       }
-    //     },
-    //   });
+        const createdPurchase = await prisma.purchase.create({
+          data: {
+            userId: currentCart.userId,
+            cartId: currentCart.id,
+            totalValue: currentCart.totalValue,
+            paymentMethod: paymentMethod,
+            purchasesOnUser: {
+              create: {
+                user:{
+                  connect:{
+                    id:currentCart.userId
+                  }
+                }
+              }
+            }
+          }
+        });
     
       // TODO: ATUALIZAR CADA LIVRO NO CARRINHO PARA "JA COMPRADO"
+
 
       // TODO: ATUALIZAR CARRINHO PARA JA COMPRADO
 
