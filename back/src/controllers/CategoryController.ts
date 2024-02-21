@@ -52,6 +52,9 @@ class CategoryController {
       const booksFromCategory = await prisma.category.findMany({
         where: {
           category: category,
+          book:{
+            hasBeenpurchased:false
+          },
         },
         select: {
           book: {
