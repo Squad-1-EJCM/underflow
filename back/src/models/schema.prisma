@@ -104,7 +104,7 @@ model Cart {
   id           Int           @id @default(autoincrement())
   userId       Int           @unique @map("user_id")
   user         User          @relation(fields: [userId], references: [id])
-  totalValue   Decimal       @map("total_value") @db.Money
+  totalValue   Decimal       @map("total_value") @db.Money @default(0.00)
   creationDate DateTime      @default(now()) @map("creation_date")
   booksOnCart  BooksOnCart[]
   purchaseMade Boolean       @default(false) @map("purchase_made")
