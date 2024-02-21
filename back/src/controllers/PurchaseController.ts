@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import CartController from "./CartController";
 
 const prisma = new PrismaClient();
 
@@ -37,7 +36,6 @@ class PurchaseController {
         },
       });
 
-      // TODO: ATUALIZAR CADA LIVRO NO CARRINHO PARA "JA COMPRADO"
 
       const booksOnPurchase = await prisma.booksOnCart.findMany({
         where: {
@@ -158,6 +156,18 @@ class PurchaseController {
       return res.status(500).json({ error: error.message });
     }
   }
+
+  // TODO: Consultar Antonio/Francisco sobre regra de negocio pra isso
+  async updatePurchase(req:Request, res:Response){
+
+  }
+
+  // TODO: Conversar com o Antonio/Francisco sobre a regra de negocio pra isso
+  async deletePurchase(req:Request, res:Response){
+
+  }
+
+
 }
 
 export default new PurchaseController();
