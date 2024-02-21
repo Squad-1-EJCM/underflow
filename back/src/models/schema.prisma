@@ -140,7 +140,6 @@ model PurchaseOnUser {
   cartId       Int      @unique @map("cart_id")
   userId       Int      @unique @map("user_id")
   purchaseDate DateTime @default(now()) @map("purchase_date")
-  amomount     Int      @map("ammount")
   purchase     Purchase @relation(fields: [cartId, userId], references: [cartId, userId])
   user         User     @relation(fields: [userId], references: [id])
 
