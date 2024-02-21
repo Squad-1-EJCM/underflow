@@ -128,7 +128,11 @@ class PurchaseController {
             },
             include: {
               booksOnCart: {
+                select:{
+                  ammonut:true
+                },
                 include: {
+                  
                   book: {
                     select: {
                       id: true,
@@ -138,6 +142,7 @@ class PurchaseController {
                       imgUrl: true,
                     },
                   },
+                  
                 },
               },
               purchase: {
@@ -164,7 +169,11 @@ class PurchaseController {
 
   // TODO: Conversar com o Antonio/Francisco sobre a regra de negocio pra isso
   async deletePurchase(req:Request, res:Response){
+    // try{
 
+    // }catch(error:any){
+    //   return res.status(500).json({ error: error.message });
+    // }
   }
 
 
