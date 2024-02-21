@@ -166,9 +166,6 @@ CREATE UNIQUE INDEX "purchase_user_id_key" ON "purchase"("user_id");
 CREATE UNIQUE INDEX "purchase_cart_id_key" ON "purchase"("cart_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "purchase_on_user_cart_id_key" ON "purchase_on_user"("cart_id");
-
--- CreateIndex
 CREATE UNIQUE INDEX "purchase_on_user_user_id_key" ON "purchase_on_user"("user_id");
 
 -- AddForeignKey

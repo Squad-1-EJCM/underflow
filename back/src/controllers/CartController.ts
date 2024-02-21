@@ -8,8 +8,6 @@ class CartController {
     try {
       const { userId } = req.params;
 
-      const totalValue = 0;
-
       const currentCart = await prisma.cart.findUnique({
         where: {
           userId: Number(userId),
@@ -22,7 +20,6 @@ class CartController {
 
       const createdCart = await prisma.cart.create({
         data: {
-          totalValue: totalValue,
           user: {
             connect: {
               id: Number(userId),
@@ -71,14 +68,29 @@ class CartController {
 
   async insertBookOnCart(req: Request, res: Response) {
     try {
-      const { cartId } = req.params;
-      const { bookId, ammount, userId } = req.body;
+      const { userId } = req.params;
+      const { bookId, ammount } = req.body;
 
       let cart = await prisma.cart.findUnique({
         where: {
-          id: Number(cartId),
+          userId: Number(userId),
+          purchaseMade: false,
         },
       });
+
+      if (!cart) {
+        cart = await prisma.cart.create({
+          data: {
+            user: {
+              connect: {
+                id: Number(userId),
+              },
+            },
+          },
+        });
+      }
+
+      const cartId = cart.id;
 
       const book = await prisma.book.findUnique({
         where: {
@@ -95,7 +107,7 @@ class CartController {
 
       const updatedCart = await prisma.cart.update({
         where: {
-          id: Number(cartId),
+          id: cartId,
         },
         data: {
           totalValue: newTotalValue,
@@ -107,7 +119,7 @@ class CartController {
           ammonut: ammount,
           cart: {
             connect: {
-              id: Number(cartId),
+              id: cartId,
             },
           },
           book: {

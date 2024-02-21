@@ -137,7 +137,7 @@ model Purchase {
 }
 
 model PurchaseOnUser {
-  cartId       Int      @unique @map("cart_id")
+  cartId       Int       @map("cart_id")
   userId       Int      @unique @map("user_id")
   purchaseDate DateTime @default(now()) @map("purchase_date")
   purchase     Purchase @relation(fields: [cartId, userId], references: [cartId, userId])

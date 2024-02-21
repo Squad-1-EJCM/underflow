@@ -12,8 +12,8 @@ class CategoryController {
       const createdCategories: any[] = []
 
       await Promise.all(
-        categories.map((category: string) => {
-         createdCategories.concat (prisma.category.create({
+        categories.map(async (category: string) => {
+         createdCategories.concat ( await prisma.category.create({
             data: {
               bookId: Number(bookId),
               category: category,
@@ -33,8 +33,8 @@ class CategoryController {
     try {
     
       await Promise.all(
-        categories.map((category: string) => {
-          prisma.category.create({
+        categories.map(async (category: string) => {
+         await prisma.category.create({
             data: {
               bookId: bookId,
               category: category,
