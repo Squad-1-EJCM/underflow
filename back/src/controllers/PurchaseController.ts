@@ -7,12 +7,12 @@ const prisma = new PrismaClient();
 class PurchaseController {
   async create(req: Request, res: Response) {
     try {
-      const { cardId } = req.params;
+      const { cardId: cartId } = req.params;
       const { paymentMethod } = req.body;
 
       const currentCart = await prisma.cart.findUnique({
         where: {
-          id: Number(cardId),
+          id: Number(cartId),
         },
       });
 
@@ -41,7 +41,7 @@ class PurchaseController {
 
       const booksOnPurchase = await prisma.booksOnCart.findMany({
         where: {
-          cartId: Number(cardId),
+          cartId: Number(cartId),
         },
         select: {
           bookId: true,
@@ -64,9 +64,15 @@ class PurchaseController {
       const updatedCart = await prisma.cart.update({
         data: {
           purchaseMade: true,
+          purchase:{
+            connect:{
+              cartId:currentCart.id,
+              userId:currentCart.userId
+            }
+          }
         },
         where: {
-          id: Number(cardId),
+          id: Number(cartId),
         },
       });
 
@@ -110,44 +116,44 @@ class PurchaseController {
     try {
       const { userId } = req.params;
 
-      // Pegar todos os carrinhos comprados pelo usuario
-
       const purchasesOnUser = await prisma.purchaseOnUser.findMany({
         where: {
           userId: Number(userId),
-         
         },
       });
 
-      // const productsOnCart = await Promise.all(
-      //   purchasesOnUser.map(async (purchase) => {
-         
-      //     await prisma.booksOnCart.findMany({
-      //       where:{
-      //         cartId:purchase.cartId,
-      //         cart:{
-      //           purchaseMade:true
-      //         }
-      //       },include:{
-      //         book:{
-      //           select: {
-      //             id: true,
-      //             title: true,
-      //             price: true,
-      //             discount: true,
-      //             imgUrl: true,
-      //           },
-      //         }
-      //       }
-      //     })
-          
-      //   })
-      // );
-
-
-
-    //  return res.status(201).json(productsOnCart);
-      // Pegar e retornar as informações de cada item comprado
+      const purchasedBooks = await Promise.all(
+        purchasesOnUser.map(async (purchaseOnUser) => {
+          return await prisma.cart.findMany({
+            where: {
+              id: purchaseOnUser.cartId,
+            },
+            include: {
+              booksOnCart: {
+                include: {
+                  book: {
+                    select: {
+                      id: true,
+                      title: true,
+                      price: true,
+                      discount: true,
+                      imgUrl: true,
+                    },
+                  },
+                },
+              },
+              purchase: {
+                select: {
+                  purchaseDate: true,
+                },
+              },
+            },
+          });
+        })
+      );
+      
+       return res.status(201).json(purchasedBooks);
+      
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }

@@ -166,6 +166,9 @@ CREATE UNIQUE INDEX "purchase_user_id_key" ON "purchase"("user_id");
 CREATE UNIQUE INDEX "purchase_cart_id_key" ON "purchase"("cart_id");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "purchase_on_user_cart_id_key" ON "purchase_on_user"("cart_id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "purchase_on_user_user_id_key" ON "purchase_on_user"("user_id");
 
 -- AddForeignKey
@@ -194,6 +197,9 @@ ALTER TABLE "books_on_cart" ADD CONSTRAINT "books_on_cart_cart_id_fkey" FOREIGN 
 
 -- AddForeignKey
 ALTER TABLE "books_on_cart" ADD CONSTRAINT "books_on_cart_book_id_fkey" FOREIGN KEY ("book_id") REFERENCES "book"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "purchase" ADD CONSTRAINT "purchase_cart_id_fkey" FOREIGN KEY ("cart_id") REFERENCES "cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "purchase_on_user" ADD CONSTRAINT "purchase_on_user_cart_id_user_id_fkey" FOREIGN KEY ("cart_id", "user_id") REFERENCES "purchase"("cart_id", "user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
