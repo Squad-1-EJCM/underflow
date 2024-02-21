@@ -5,7 +5,8 @@ export const Container = styled.SafeAreaView`
   flex-direction: row;
   max-width: 100vw;
   margin-top: 24px;
-  height: 40px;
+  height: 42px;
+  overflow-x: hidden;
 `;
 
 interface ItemViewInterface {
