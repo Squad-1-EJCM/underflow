@@ -9,16 +9,18 @@ class CategoryController {
       const { bookId } = req.params;
       const { categories } = req.body;
 
-      const createdCategories: any[] = []
+      const createdCategories: any[] = [];
 
       await Promise.all(
         categories.map(async (category: string) => {
-         createdCategories.concat ( await prisma.category.create({
-            data: {
-              bookId: Number(bookId),
-              category: category,
-            },
-          }));
+          createdCategories.concat(
+            await prisma.category.create({
+              data: {
+                bookId: Number(bookId),
+                category: category,
+              },
+            })
+          );
         })
       );
 
@@ -26,15 +28,13 @@ class CategoryController {
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
-
   }
 
   async createManyFromArray(categories: Array<string>, bookId: number) {
     try {
-    
       await Promise.all(
         categories.map(async (category: string) => {
-         await prisma.category.create({
+          await prisma.category.create({
             data: {
               bookId: bookId,
               category: category,
@@ -42,7 +42,6 @@ class CategoryController {
           });
         })
       );
-      
     } catch (error: any) {}
   }
 
@@ -73,53 +72,51 @@ class CategoryController {
     }
   }
 
-
-  async update(req:Request, res:Response){
+  async update(req: Request, res: Response) {
     try {
-        const { bookId } = req.params;
-        const { categories } = req.body;
-  
-        const updatedCategories: any[] = []
-  
-        await Promise.all(
-          categories.map((category: string) => {
-           updatedCategories.concat (prisma.category.update({
+      const { bookId } = req.params;
+      const { categories } = req.body;
+
+      const updatedCategories: any[] = [];
+
+      await Promise.all(
+        categories.map((category: string) => {
+          updatedCategories.concat(
+            prisma.category.update({
               data: {
                 bookId: Number(bookId),
                 category: category,
-              },where:{
-                bookId:Number(bookId)
-              }
-            }));
-          })
-        );
-  
-        return res.status(201).json(updatedCategories);
-      } catch (error: any) {
-        return res.status(500).json({ error: error.message });
-      }
-  
-  }
-
-  async deleteCategoryFromBook(req:Request, res:Response){
-    try{
-        const {bookId} = req.params
-        const {category} = req.body
-
-        const deletedCategory = await prisma.category.delete({
-            where:{
-                bookId:Number(bookId)
-            }
+              },
+              where: {
+                bookId: Number(bookId),
+              },
+            })
+          );
         })
+      );
 
-        return res.status(201).json(deletedCategory)
-
-    }catch(error:any){
-        return res.status(500).json({error:error.message})
+      return res.status(201).json(updatedCategories);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
     }
   }
 
+  async deleteCategoryFromBook(req: Request, res: Response) {
+    try {
+      const { bookId } = req.params;
+      const { category } = req.body;
 
+      const deletedCategory = await prisma.category.delete({
+        where: {
+          bookId: Number(bookId),
+        },
+      });
+
+      return res.status(201).json(deletedCategory);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
 }
 
 export default new CategoryController();

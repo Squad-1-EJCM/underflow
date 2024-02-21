@@ -125,6 +125,16 @@ class FavoriteController {
       return res.status(500).json({ error: error.message });
     }
   }
+
+  async deleteAll(req: Request, res: Response) {
+    try {
+      const deletedFavorites = await prisma.booksOnFavorites.deleteMany();
+
+      return res.status(201).json(deletedFavorites);
+    } catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
 }
 
 export default new FavoriteController();
