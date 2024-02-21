@@ -4,13 +4,15 @@ import styled from "styled-components/native";
 import Register from "./src/pages/Register/Register";
 import RegisterContextProvider from "./src/contexts/RegisterContext";
 import SuccessPage from "./src/components/SuccessPage/SuccessPage";
+import Product from "./src/pages/Product/Product";
 
 export default function App() {
   return (
     <Container>
-      <RegisterContextProvider>
+      {/* <RegisterContextProvider>
         <Register />
-      </RegisterContextProvider>
+      </RegisterContextProvider> */}
+      <Product />
     </Container>
   );
 }
