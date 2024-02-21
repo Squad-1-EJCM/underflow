@@ -49,6 +49,7 @@ const BooksCarousel = () => {
         renderItem={({item}) => <CardBook title={item.title} imgURL={item.imageUrl} oldPrice={item.oldPrice} price={item.newPrice} />}
         keyExtractor={item => item.id}
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
       />
   </Container>);
 };
