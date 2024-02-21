@@ -80,7 +80,7 @@ CREATE TABLE "user_on_comment" (
 CREATE TABLE "cart" (
     "id" SERIAL NOT NULL,
     "user_id" INTEGER NOT NULL,
-    "total_value" MONEY NOT NULL,
+    "total_value" MONEY NOT NULL DEFAULT 0.00,
     "creation_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "purchase_made" BOOLEAN NOT NULL DEFAULT false,
 
