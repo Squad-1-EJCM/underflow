@@ -113,7 +113,6 @@ CREATE TABLE "purchase_on_user" (
     "cart_id" INTEGER NOT NULL,
     "user_id" INTEGER NOT NULL,
     "purchase_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "ammount" INTEGER NOT NULL,
 
     CONSTRAINT "purchase_on_user_pkey" PRIMARY KEY ("cart_id","user_id")
 );
