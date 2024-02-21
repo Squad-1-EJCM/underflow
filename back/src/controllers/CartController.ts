@@ -160,6 +160,8 @@ class CartController {
         },
       });
 
+      if(!booksOnCart) return res.status(404).json({error:"Cart not found"})
+
       return res.status(201).json(booksOnCart);
     } catch (error: any) {
       res.status(500).json({ error: error.message });
