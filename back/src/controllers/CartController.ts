@@ -72,9 +72,9 @@ class CartController {
   async insertBookOnCart(req: Request, res: Response) {
     try {
       const { cartId } = req.params;
-      const { bookId, ammount } = req.body;
+      const { bookId, ammount, userId } = req.body;
 
-      const cart = await prisma.cart.findUnique({
+      let cart = await prisma.cart.findUnique({
         where: {
           id: Number(cartId),
         },
