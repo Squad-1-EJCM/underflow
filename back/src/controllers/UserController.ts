@@ -150,5 +150,16 @@ class UserController {
       return res.status(500).json({ error: error.message });
     }
   }
+
+  async deleteAll(req:Request, res:Response){
+    try{
+      const deletedUsers = await prisma.user.deleteMany()
+
+      return res.status(201).json(deletedUsers)
+    }catch (error: any) {
+      return res.status(500).json({ error: error.message });
+    }
+  }
+
 }
 export default new UserController();
