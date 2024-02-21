@@ -7,7 +7,6 @@ import { HomeCarousel, Title } from "./style";
 const Home = () => {
   return (
     <View>
-      <Header />
       <CategoriesCarousel />
       <HomeCarousel>
         <Title>Novas Publicações</Title>

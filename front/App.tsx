@@ -1,10 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
-import Home from "./src/pages/Home/Home";
+import 'react-native-gesture-handler';
+import Routes from "./src/routes/routes";
 
 export default function App() {
   return (
-    <View>
-      <Home/>
-    </View>
+    <Routes/>
   );
 }

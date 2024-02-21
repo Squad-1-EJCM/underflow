@@ -52,6 +52,7 @@ const CategoriesCarousel = () => {
         renderItem={({item}) => <Item title={item.title} marginLeft={item.marginLeft!} />}
         keyExtractor={item => item.id}
         horizontal={true}
+        showsHorizontalScrollIndicator={false}
       />
     </Container>
   );
