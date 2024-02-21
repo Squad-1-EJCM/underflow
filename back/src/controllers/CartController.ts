@@ -143,6 +143,9 @@ class CartController {
       const booksOnCart = await prisma.booksOnCart.findMany({
         where: {
           cartId: Number(cartId),
+          cart:{
+            purchaseMade:false
+          }
         },
         include: {
           book: {
