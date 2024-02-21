@@ -168,12 +168,64 @@ class PurchaseController {
   }
 
   // TODO: Conversar com o Antonio/Francisco sobre a regra de negocio pra isso
-  async deletePurchase(req:Request, res:Response){
-    // try{
+  async delete(req:Request, res:Response){
+    
+    const { cardId: cartId } = req.params;
+    const { paymentMethod } = req.body;
 
-    // }catch(error:any){
-    //   return res.status(500).json({ error: error.message });
-    // }
+    const currentCart = await prisma.cart.findUnique({
+      where: {
+        id: Number(cartId),
+      },
+    });
+
+    if (!currentCart)
+      return res.status(404).json({ error: "Cart not found" });
+
+    const deletedPurchase = await prisma.purchase.delete({
+      where:{
+        cartId:Number(cartId)
+      }
+    });
+
+
+    const booksOnPurchase = await prisma.booksOnCart.findMany({
+      where: {
+        cartId: Number(cartId),
+      },
+      select: {
+        bookId: true,
+      },
+    });
+
+    await Promise.all(
+      booksOnPurchase.map(async (book) => {
+        await prisma.book.update({
+          data: {
+            hasBeenpurchased: false,
+          },
+          where: {
+            id: book.bookId,
+          },
+        });
+      })
+    );
+
+    const updatedCart = await prisma.cart.update({
+      data: {
+        purchaseMade: false,
+        purchase:{
+          disconnect:true
+        }
+        
+      },
+      where: {
+        id: Number(cartId),
+      },
+    });
+
+    return res.status(201).json(deletedPurchase);
+
   }
 
 
