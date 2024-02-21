@@ -1,15 +1,22 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import Header from "./src/components/HomeHeader/HomeHeader";
-import CategoriesCarousel from "./src/components/CategoriesCarousel/CategoriesCarousel";
-import CardBook from "./src/components/CardBook/CardBook";
+import React from "react";
+import Login from "./src/pages/Login/Login";
+import styled from "styled-components/native";
+import Register from "./src/pages/Register/Register";
+import RegisterContextProvider from "./src/contexts/RegisterContext";
+import SuccessPage from "./src/components/SuccessPage/SuccessPage";
 
 export default function App() {
   return (
-    <View>
-      <Header />
-      <CategoriesCarousel />
-      <CardBook/>
-    </View>
+    <Container>
+      <RegisterContextProvider>
+        <Register />
+      </RegisterContextProvider>
+    </Container>
   );
 }
+
+const Container = styled.View`
+  width: 100vw;
+  min-height: 100vh;
+  overflow-y: scroll;
+`;
