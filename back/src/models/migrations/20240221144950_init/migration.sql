@@ -199,6 +199,9 @@ ALTER TABLE "books_on_cart" ADD CONSTRAINT "books_on_cart_cart_id_fkey" FOREIGN 
 ALTER TABLE "books_on_cart" ADD CONSTRAINT "books_on_cart_book_id_fkey" FOREIGN KEY ("book_id") REFERENCES "book"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "purchase" ADD CONSTRAINT "purchase_cart_id_fkey" FOREIGN KEY ("cart_id") REFERENCES "cart"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "purchase_on_user" ADD CONSTRAINT "purchase_on_user_cart_id_user_id_fkey" FOREIGN KEY ("cart_id", "user_id") REFERENCES "purchase"("cart_id", "user_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
