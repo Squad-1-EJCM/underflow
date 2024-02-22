@@ -7,6 +7,7 @@ import RegisterContextProvider from "./src/contexts/RegisterContext";
 import SuccessPage from "./src/components/SuccessPage/SuccessPage";
 import Product from "./src/pages/Product/Product";
 import Profile from "./src/pages/Profile/Profile";
+import UpdateUser from "./src/pages/UpdateUser/UpdateUser";
 
 export default function App() {
   return (
@@ -15,7 +16,7 @@ export default function App() {
         <Register />
       </RegisterContextProvider> */}
       {/* <Product /> */}
-      <Profile />
+      <UpdateUser />
     </Container>
   );
 }

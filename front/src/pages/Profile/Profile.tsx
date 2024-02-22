@@ -15,7 +15,7 @@ import axios from "axios";
 import CardBook from "../../components/CardBook/CardBook";
 import NotFound from "../../components/NotFound/NotFound";
 
-interface User {
+export interface User {
   id: number;
   cpf: string;
   email: string;
