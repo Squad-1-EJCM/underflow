@@ -64,7 +64,9 @@ class CommentController {
               imgUrl: true,
             },
           },
-        },
+        },orderBy:{
+          publishDate:"desc"
+        }
       });
 
       return res.status(201).json(commentsOnBook);
