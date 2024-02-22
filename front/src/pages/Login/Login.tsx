@@ -33,6 +33,10 @@ const Login = () => {
   });
   const navigation = useNavigation<LoginScreen>();
 
+  function onSubmit() {
+    navigation.navigate("Home");
+  }
+
   return (
     <Container>
       <AuthForm>
@@ -80,7 +84,7 @@ const Login = () => {
           <Anchor>Esqueceu sua senha?</Anchor>
         </FlexRow>
         <ButtonsContainer>
-          <Button text="Entrar" onClick={() => {}} />
+          <Button text="Entrar" onClick={handleSubmit(onSubmit)} />
           <Button
             text="Cadastrar"
             onClick={() => navigation.navigate("Register")}
@@ -93,7 +97,7 @@ const Login = () => {
         <TwoLineAnchor
           firstLine="Não quer criar uma conta no momento?"
           secondLine="Entrar como visitante"
-          href="register"
+          onClick={() => navigation.navigate("Home")}
         />
       </LinksContainer>
       <Detail source={require("../../assets/Horizontal-wave.png")} />

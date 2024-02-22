@@ -3,19 +3,18 @@ import { AnchorText, Container, GhostText, Underline } from "./styles";
 interface TwoLineAnchorInterface {
   firstLine: string;
   secondLine: string;
-  href: string;
+  onClick: VoidFunction;
 }
 
 const TwoLineAnchor = ({
   firstLine,
   secondLine,
-  href,
+  onClick,
 }: TwoLineAnchorInterface) => {
   return (
     <Container>
       <GhostText>{firstLine}</GhostText>
-      {/* //! Solve href error */}
-      <AnchorText onPress={() => {}}>
+      <AnchorText onPress={onClick}>
         {secondLine}
         <Underline />
       </AnchorText>

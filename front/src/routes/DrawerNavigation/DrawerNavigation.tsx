@@ -1,9 +1,4 @@
-import {
-  DrawerContentScrollView,
-  createDrawerNavigator,
-} from "@react-navigation/drawer";
-import { Feather } from "@expo/vector-icons";
-import Home from "../../pages/Home/Home";
+import { DrawerContentScrollView } from "@react-navigation/drawer";
 import {
   Container,
   Icon,
@@ -17,7 +12,6 @@ import {
 } from "./styles";
 
 const sizeD = 30;
-const Drawer = createDrawerNavigator();
 const CustomDrawerContent: React.FC = () => {
   return (
     <DrawerContentScrollView>
@@ -62,22 +56,5 @@ const CustomDrawerContent: React.FC = () => {
     </DrawerContentScrollView>
   );
 };
-export default function DrawerRoutes() {
-  return (
-    <Drawer.Navigator
-      drawerContent={CustomDrawerContent}
-      screenOptions={{
-        headerTintColor: "#33415C",
-        title: "",
-        headerStyle: {
-          backgroundColor: "#F1F4FF",
-        },
-        drawerStyle: {
-          backgroundColor: "#F1F4FF",
-        },
-      }}
-    >
-      <Drawer.Screen name="home" component={Home} />
-    </Drawer.Navigator>
-  );
-}
+
+export default CustomDrawerContent;

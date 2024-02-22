@@ -18,7 +18,7 @@ const SuccessPage = ({
   href,
   text,
 }: {
-  href: "Login" | "Register";
+  href: "Login" | "Register" | "Home";
   text: string;
 }) => {
   const animationRef = React.useRef<LottieView | null>(null);

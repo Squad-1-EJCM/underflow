@@ -3,10 +3,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import RegisterContextProvider from "../contexts/RegisterContext";
+import DrawerRoutes from "./drawer.routes";
 
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
+  Home: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -19,6 +21,7 @@ export default function StackRoutes() {
     >
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={RegisterWithContext} />
+      <Stack.Screen name="Home" component={DrawerRoutes} />
     </Stack.Navigator>
   );
 }

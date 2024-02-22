@@ -108,7 +108,7 @@ const AuthPage = () => {
         <TwoLineAnchor
           firstLine="Não quer criar uma conta no momento?"
           secondLine="Entrar como visitante"
-          href="Home"
+          onClick={() => navigation.navigate("Home")}
         />
       </LinksContainer>
       <Detail source={require("../../assets/Horizontal-wave.png")} />
