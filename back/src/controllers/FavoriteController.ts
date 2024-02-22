@@ -83,9 +83,7 @@ class FavoriteController {
         where: {
           bookId: Number(bookId),
         },
-        include: {
-          user: true,
-        },
+       
       });
 
       return res.status(201).json(usersWhoFavoritedBook);
