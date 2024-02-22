@@ -7,12 +7,8 @@ import RegisterContextProvider from "./src/contexts/RegisterContext";
 import SuccessPage from "./src/components/SuccessPage/SuccessPage";
 import Product from "./src/pages/Product/Product";
 import AddProduct from "./src/pages/AddProduct/AddProduct";
+import FinishScreen from "./src/pages/FinishScreen/FinishScreen";
 
 export default function App() {
-  return (
-    <AddProduct/>
-
-  );
+  return <AddProduct />;
 }
-
-
