@@ -11,9 +11,16 @@ export type RootStackParamList = {
   Home: undefined;
 };
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+/* export type ProfileStackParamList = {
+  profile: undefined;
+  EditProfile: undefined;
+  AddProduct: undefined;
+}; */
 
-export default function StackRoutes() {
+const Stack = createNativeStackNavigator<RootStackParamList>();
+/* const ProfileStack = createNativeStackNavigator<ProfileStackParamList>(); */
+
+export default function RootStackRoutes() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
@@ -25,6 +32,18 @@ export default function StackRoutes() {
     </Stack.Navigator>
   );
 }
+
+/* export function ProfileStackRoutes() {
+  return (
+    <ProfileStack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName="profile"
+    >
+      <ProfileStack.Screen name="profile" component={Profile} />
+      <ProfileStack.Screen name="EditProfile" component={UpdateUser} />
+    </ProfileStack.Navigator>
+  );
+} */
 
 function RegisterWithContext() {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
 import { Header, Container, Form } from "./styles";
 import ProfilePicture from "../../components/ProfilePicture/ProfilePicture";
 import { Controller, useForm } from "react-hook-form";
@@ -7,8 +7,20 @@ import { User } from "../Profile/Profile";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
 
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { RootDrawerParamList } from "../../routes/drawer.routes";
+import { useNavigation } from "@react-navigation/native";
+
+type ProfileScreen = DrawerNavigationProp<RootDrawerParamList, "Profile">;
+
 const UpdateUser = () => {
   const user = require("../../../mocks/user.json") as User;
+  const navigation = useNavigation<ProfileScreen>();
+
+  function onSubmit() {
+    console.log("Oi");
+    navigation.navigate("Profile");
+  }
 
   const {
     control,
@@ -40,8 +52,9 @@ const UpdateUser = () => {
   return (
     <Container>
       <Header>
-        <Image source={require("../../assets/return.svg")} />
-        <Image source={require("../../assets/pen-to-square-solid 1.svg")} />
+        <Pressable onPress={() => navigation.navigate("Profile")}>
+          <Image source={require("../../assets/return.svg")} />
+        </Pressable>
       </Header>
       <ProfilePicture
         image={require("../../assets/profile.svg")}
@@ -313,7 +326,7 @@ const UpdateUser = () => {
           name="phone"
         />
       </Form>
-      <Button onClick={() => {}} text="Salvar" />
+      <Button onClick={handleSubmit(onSubmit)} text="Salvar" />
     </Container>
   );
 };

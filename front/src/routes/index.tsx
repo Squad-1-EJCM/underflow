@@ -1,7 +1,5 @@
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import { Text } from "react-native";
-import DrawerRoutes from "./DrawerNavigation/DrawerNavigation";
-import StackRoutes from "./stack.routes";
+import RootStackRoutes from "./stack.routes";
 
 export default function Routes() {
   const MyTheme = {
@@ -13,7 +11,7 @@ export default function Routes() {
   };
   return (
     <NavigationContainer theme={MyTheme}>
-      <StackRoutes />
+      <RootStackRoutes />
     </NavigationContainer>
   );
 }

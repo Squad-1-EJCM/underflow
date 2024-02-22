@@ -1,18 +1,29 @@
 import { DrawerContentScrollView } from "@react-navigation/drawer";
 import {
-  Container,
+  NavItem,
   Icon,
   Name,
-  OptionsView,
+  Nav,
   PhotoView,
   ProfilePhoto,
   Subtitles,
   TopView,
   TotalView,
 } from "./styles";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../stack.routes";
+
+type HomeDrawerParamList = {
+  home: undefined;
+  Profile: undefined;
+};
+
+type SideMenu = DrawerNavigationProp<RootStackParamList & HomeDrawerParamList>;
 
 const sizeD = 30;
 const CustomDrawerContent: React.FC = () => {
+  const navigation = useNavigation<SideMenu>();
   return (
     <DrawerContentScrollView>
       <TotalView>
@@ -26,32 +37,32 @@ const CustomDrawerContent: React.FC = () => {
           </PhotoView>
           <Name>Nome de usuário</Name>
         </TopView>
-        <OptionsView>
-          <Container>
+        <Nav>
+          <NavItem onPress={() => navigation.navigate("Profile")}>
             <Icon source={require("../../assets/perfil_i.svg")} />
             <Subtitles>Perfil</Subtitles>
-          </Container>
-          <Container>
+          </NavItem>
+          <NavItem onPress={() => navigation.navigate("home")}>
             <Icon source={require("../../assets/home_i.svg")} />
             <Subtitles>Home</Subtitles>
-          </Container>
-          <Container>
+          </NavItem>
+          <NavItem>
             <Icon source={require("../../assets/favoritos_i.svg")} />
             <Subtitles>Favoritos</Subtitles>
-          </Container>
-          <Container>
+          </NavItem>
+          <NavItem>
             <Icon source={require("../../assets/carrinho_i.svg")} />
             <Subtitles>Carrinho</Subtitles>
-          </Container>
-          <Container>
+          </NavItem>
+          <NavItem>
             <Icon source={require("../../assets/caderno_i.svg")} />
             <Subtitles>Histórico de compras</Subtitles>
-          </Container>
-          <Container>
+          </NavItem>
+          <NavItem onPress={() => navigation.navigate("Login")}>
             <Icon source={require("../../assets/sair_i.svg")} />
             <Subtitles>Sair</Subtitles>
-          </Container>
-        </OptionsView>
+          </NavItem>
+        </Nav>
       </TotalView>
     </DrawerContentScrollView>
   );
