@@ -2,11 +2,14 @@ import React from "react";
 import Login from "./src/pages/Login/Login";
 import styled from "styled-components/native";
 import Register from "./src/pages/Register/Register";
-import Routes from "./src/routes/routes";
+import Routes from "./src/routes";
 import RegisterContextProvider from "./src/contexts/RegisterContext";
 import SuccessPage from "./src/components/SuccessPage/SuccessPage";
 import Product from "./src/pages/Product/Product";
 import Profile from "./src/pages/Profile/Profile";
+import UpdateUser from "./src/pages/UpdateUser/UpdateUser";
+import Home from "./src/pages/Home/Home";
+//import "react-native-gesture-handler";
 
 export default function App() {
   return (
@@ -15,7 +18,8 @@ export default function App() {
         <Register />
       </RegisterContextProvider> */}
       {/* <Product /> */}
-      <Profile />
+      <Routes />
+      {/* <Login /> */}
     </Container>
   );
 }

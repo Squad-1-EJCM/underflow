@@ -11,12 +11,19 @@ import {
 import Button from "../Button/Button";
 import TwoLineAnchor from "../TwoLineAnchor/TwoLineAnchor";
 import { useRegisterContext } from "../../contexts/RegisterContext";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../routes/stack.routes";
+import { useNavigation } from "@react-navigation/native";
+
+type RegisterScreen = NativeStackNavigationProp<RootStackParamList, "Register">;
 
 const AuthPage = () => {
   const { pagination, control, handleSubmit, errors, watch } =
     useRegisterContext();
   const passwordRef = React.useRef<string>();
   passwordRef.current = watch("password", "");
+
+  const navigation = useNavigation<RegisterScreen>();
 
   return (
     <Container>
@@ -91,7 +98,7 @@ const AuthPage = () => {
           />
           <Button
             text="Entrar"
-            onClick={() => {}}
+            onClick={() => navigation.navigate("Login")}
             background="#F1F4FF"
             color="#023E8A"
           />
@@ -101,7 +108,7 @@ const AuthPage = () => {
         <TwoLineAnchor
           firstLine="Não quer criar uma conta no momento?"
           secondLine="Entrar como visitante"
-          href="register"
+          href="Home"
         />
       </LinksContainer>
       <Detail source={require("../../assets/Horizontal-wave.png")} />
