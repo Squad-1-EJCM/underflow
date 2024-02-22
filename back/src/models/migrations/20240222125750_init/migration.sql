@@ -53,6 +53,7 @@ CREATE TABLE "category" (
 CREATE TABLE "books_on_favorites" (
     "user_id" INTEGER NOT NULL,
     "book_id" INTEGER NOT NULL,
+    "insertion_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "books_on_favorites_pkey" PRIMARY KEY ("user_id","book_id")
 );

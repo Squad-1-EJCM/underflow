@@ -54,7 +54,7 @@ class CommentController {
           comment: {
             select: {
               content: true,
-              publish_date: true,
+              publishDate: true,
             },
           },
           user: {
@@ -82,7 +82,7 @@ class CommentController {
         where: {
           userId: userId,
           bookId: Number(bookId),
-          publish_date: publishDate,
+          publishDate: publishDate,
         },
         data: {
           content: content,
@@ -104,7 +104,7 @@ class CommentController {
         where: {
           bookId: Number(bookId),
           userId: userId,
-          publish_date: publishDate,
+          publishDate: publishDate,
         },
         include: {
           usersOnComments: true,

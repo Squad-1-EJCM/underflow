@@ -69,10 +69,11 @@ model Category {
 }
 
 model BooksOnFavorites {
-  userId        Int  @unique @map("user_id")
-  user          User @relation(fields: [userId], references: [id])
-  bookId        Int  @unique @map("book_id")
-  favoritedBook Book @relation(fields: [bookId], references: [id])
+  userId        Int      @unique @map("user_id")
+  user          User     @relation(fields: [userId], references: [id])
+  bookId        Int      @unique @map("book_id")
+  favoritedBook Book     @relation(fields: [bookId], references: [id])
+  insertionDate DateTime @default(now()) @map("insertion_date")
 
   @@id([userId, bookId])
   @@map("books_on_favorites")
@@ -82,10 +83,10 @@ model Comment {
   userId          Int               @unique @map("user_id")
   bookId          Int               @unique @map("book_id")
   content         String
-  publish_date    DateTime          @default(now()) @map("publish_date")
+  publishDate     DateTime          @default(now()) @map("publish_date")
   usersOnComments UsersOnComments[]
 
-  @@id([userId, bookId, publish_date])
+  @@id([userId, bookId, publishDate])
   @@map("comment")
 }
 
@@ -94,7 +95,7 @@ model UsersOnComments {
   bookId      Int      @unique @map("book_id")
   publishDate DateTime @map("publish_date")
   user        User     @relation(fields: [userId], references: [id])
-  comment     Comment  @relation(fields: [userId, bookId, publishDate], references: [userId, bookId, publish_date])
+  comment     Comment  @relation(fields: [userId, bookId, publishDate], references: [userId, bookId, publishDate])
 
   @@id([userId, bookId, publishDate])
   @@map("user_on_comment")

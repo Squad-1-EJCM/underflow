@@ -55,7 +55,9 @@ class FavoriteController {
               imgUrl: true,
             },
           },
-        },
+        },orderBy:{
+          insertionDate:"desc"
+        }
       });
 
       return res.status(201).json(favoritedBooks);
