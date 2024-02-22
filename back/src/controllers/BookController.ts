@@ -94,7 +94,19 @@ class BookController {
           id: Number(id),
         },
         include: {
-          categories: true,
+          categories: {
+            select:{
+              category:true
+            }
+          },
+          publisherUser: {
+            select: {
+              id: true,
+              name: true,
+              lastName: true,
+              imgUrl: true,
+            },
+          },
         },
       });
 
