@@ -3,28 +3,29 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+function capitalize(string: string): string {
+  const temp = string.toLowerCase();
+  return temp.charAt(0).toUpperCase() + temp.slice(1);
+}
+
 class CategoryController {
   async createMany(req: Request, res: Response) {
     try {
       const { bookId } = req.params;
       const { categories } = req.body;
 
-      const createdCategories: any[] = [];
+      const structuredData = categories.map((category: string) => {
+        return {
+          bookId: bookId,
+          category: category,
+        };
+      });
 
-      await Promise.all(
-        categories.map(async (category: string) => {
-          createdCategories.concat(
-            await prisma.category.create({
-              data: {
-                bookId: Number(bookId),
-                category: category,
-              },
-            })
-          );
-        })
-      );
+      const insertedCategories = await prisma.category.createMany({
+        data: structuredData,
+      });
 
-      return res.status(201).json(createdCategories);
+      return res.status(201).json(insertedCategories);
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
@@ -32,29 +33,29 @@ class CategoryController {
 
   async createManyFromArray(categories: Array<string>, bookId: number) {
     try {
-      await Promise.all(
-        categories.map(async (category: string) => {
-          await prisma.category.create({
-            data: {
-              bookId: bookId,
-              category: category,
-            },
-          });
-        })
-      );
-    } catch (error: any) {}
+      const structuredData = categories.map((category: string) => {
+        return {
+          bookId: bookId,
+          category: category,
+        };
+      });
+
+      const insertedCategories = await prisma.category.createMany({
+        data: structuredData,
+      });
+    } catch (error: any) {
+      throw new Error(`${error.message}`);
+    }
   }
 
   async findBooksFromCategory(req: Request, res: Response) {
     try {
-      const { category } = req.params;
+      let { category } = req.params;
+      category = capitalize(category);
 
       const booksFromCategory = await prisma.category.findMany({
         where: {
           category: category,
-          book:{
-            hasBeenpurchased:false
-          },
         },
         select: {
           book: {
@@ -75,34 +76,65 @@ class CategoryController {
     }
   }
 
-  async update(req: Request, res: Response) {
+  async updateMany(req: Request, res: Response) {
     try {
       const { bookId } = req.params;
       const { categories } = req.body;
 
-      const updatedCategories: any[] = [];
+      const structuredData = categories.map((category: string) => {
+        return {
+          bookId: bookId,
+          category: category,
+        };
+      });
 
-      await Promise.all(
-        categories.map((category: string) => {
-          updatedCategories.concat(
-            prisma.category.update({
-              data: {
-                bookId: Number(bookId),
-                category: category,
-              },
-              where: {
-                bookId: Number(bookId),
-              },
-            })
-          );
-        })
-      );
+      const deletedCategories = await prisma.category.deleteMany({
+        where:{
+          bookId:Number(bookId)
+        }
+      })
 
-      return res.status(201).json(updatedCategories);
+      if(!deletedCategories) return res.status(404).json({error:"Book not found"})
+      
+      const insertedCategories = await prisma.category.createMany({
+        data: structuredData,
+      });
+
+      return res.status(201).json(insertedCategories);
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
   }
+
+
+  async updateManyFromArray(categories:string[],bookId:number) {
+    try {
+     
+      const structuredData = categories.map((category: string) => {
+        return {
+          bookId: bookId,
+          category: category,
+        };
+      });
+
+      const deletedCategories = await prisma.category.deleteMany({
+        where:{
+          bookId:Number(bookId)
+        }
+      })
+
+      if(!deletedCategories) return new Error(`Book not found`);
+      
+      const insertedCategories = await prisma.category.createMany({
+        data: structuredData,
+      });
+
+
+    } catch (error: any) {
+      throw new Error(`${error.message}`);
+    }
+  }
+
 
   async deleteCategoryFromBook(req: Request, res: Response) {
     try {
@@ -111,7 +143,10 @@ class CategoryController {
 
       const deletedCategory = await prisma.category.delete({
         where: {
-          bookId: Number(bookId),
+          bookId_category: {
+            category: category,
+            bookId: Number(bookId),
+          },
         },
       });
 

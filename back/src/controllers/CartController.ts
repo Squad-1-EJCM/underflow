@@ -1,12 +1,15 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import AuthController from "./AuthController";
 
 const prisma = new PrismaClient();
 
 class CartController {
   async create(req: Request, res: Response) {
     try {
-      const { userId } = req.params;
+      
+      const userId: number = await AuthController.getLoggedUserId(req, res);
+      if (!userId) return res.status(404).json({ message: "User not found." });
 
       const currentCart = await prisma.cart.findUnique({
         where: {
@@ -36,7 +39,9 @@ class CartController {
 
   async showAllCarts(req: Request, res: Response) {
     try {
-      const { userId } = req.params;
+      
+      const userId: number = await AuthController.getLoggedUserId(req, res);
+      if (!userId) return res.status(404).json({ message: "User not found." });
 
       const allCartsFormUser = await prisma.cart.findMany({
         where: {
@@ -52,7 +57,10 @@ class CartController {
 
   async getCurrentCart(req: Request, res: Response) {
     try {
-      const { userId } = req.params;
+     
+      const userId: number = await AuthController.getLoggedUserId(req, res);
+      if (!userId) return res.status(404).json({ message: "User not found." });
+
       const currentCart = await prisma.cart.findFirst({
         where: {
           userId: Number(userId),
@@ -68,8 +76,9 @@ class CartController {
 
   async insertBookOnCart(req: Request, res: Response) {
     try {
-      const { userId } = req.params;
       const { bookId, ammount } = req.body;
+      const userId: number = await AuthController.getLoggedUserId(req, res);
+      if (!userId) return res.status(404).json({ message: "User not found." });
 
       let cart = await prisma.cart.findUnique({
         where: {

@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import auth from "../config/auth";
+import AuthController from "./AuthController";
 
 const prisma = new PrismaClient();
-// TODO: Fazera logica pra mostrar livros publicados
-// Se der tempo: Fazer a logica de favoritos tambem
+
+function createHash(senha: string, salt: string): string {
+  return "TODO: Fazer a logica de hasheamento e autenticacao";
+}
 class UserController {
-  createHash(senha: string, salt: string): string {
-    return "TODO: Fazer a logica de hasheamento e autenticacao";
-  }
+  
 
   async create(req: Request, res: Response) {
     try {
@@ -28,10 +30,9 @@ class UserController {
         phoneNumber,
       } = req.body;
 
-      const salt = "asdasd"; // TODO: Fazer Autenticacao
+      
 
-      const hashPassword = this.createHash(password, salt);
-      // TODO Fazer a Autenticacao
+      const { hashPassword, salt } = auth.generatePassword(password);
 
       const newUser = await prisma.user.create({
         data: {
@@ -39,7 +40,7 @@ class UserController {
           lastName: lastName,
           email: email,
           cpf: cpf,
-          hassPassword: hashPassword,
+          hashPassword: hashPassword,
           salt: salt,
           state: state,
           city: city,
@@ -66,9 +67,12 @@ class UserController {
     } catch (error: any) {
       return res.status(500).json({ error: error.message });
     }
+   
   }
 
-  async index(req: Request, res: Response) {
+  
+
+  async getDetail(req: Request, res: Response) {
     try {
       const { id } = req.params;
 
@@ -76,6 +80,12 @@ class UserController {
         where: {
           id: Number(id),
         },
+        select:{
+          name:true,
+          lastName:true,
+          imgUrl:true,
+          publishedBooks:true
+        }
       });
 
       return res.status(201).json(user);
@@ -151,6 +161,7 @@ class UserController {
     }
   }
 
+  
   async deleteAll(req:Request, res:Response){
     try{
       const deletedUsers = await prisma.user.deleteMany()
@@ -160,6 +171,5 @@ class UserController {
       return res.status(500).json({ error: error.message });
     }
   }
-
 }
 export default new UserController();

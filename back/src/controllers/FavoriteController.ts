@@ -82,16 +82,10 @@ class FavoriteController {
       const usersWhoFavoritedBook = await prisma.booksOnFavorites.findMany({
         where: {
           bookId: Number(bookId),
-        },select:{
-          user:{
-            select:{
-              id:true,
-              name:true,
-              lastName:true
-            }
-          }
-        }
-       
+        },
+        include: {
+          user: true,
+        },
       });
 
       return res.status(201).json(usersWhoFavoritedBook);
