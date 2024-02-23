@@ -17,20 +17,32 @@ class AuthController {
       if (Auth.checkPassword(password, user.hashPassword, user.salt)) {
         const token = Auth.generateJWT(user);
 
-        res.cookie("token1", token, {
+
+        res.cookie("papiro", token, {
           httpOnly: true,
           sameSite: "strict",
           secure: true,
           maxAge: 3600000,
-        }); // Exemplo de configuração de cookie
+        });
 
-        return res.status(200).json({ email: user.email });
+        return res.status(200).send();
+
       } else {
         return res.status(401).json({ message: "Invalid Password." });
       }
     } catch (e) {
       return res.status(500).json({ err: e });
     }
+  }
+
+  async logout(req: Request, res: Response) {
+
+    res.cookie("papiro", "none", {
+      expires: new Date(Date.now() + 5 * 1000),
+      httpOnly: true,
+    });
+    
+    return res.status(200).json({ success: true, message: "User logged out successfully" });
   }
 
   async getDetails(req: Request, res: Response) {
@@ -48,7 +60,7 @@ class AuthController {
             return cookies;
           }, {});
 
-        const token = cookies.token1;
+        const token = cookies.papiro;
 
         const payload = Auth.decodeJWT(token);
         const user = await prisma.user.findUnique({
