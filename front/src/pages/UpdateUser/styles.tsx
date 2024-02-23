@@ -1,7 +1,8 @@
 import styled from "styled-components/native";
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   margin: 1.5rem 1rem;
+  display: flex;
 `;
 
 export const Header = styled.View`
@@ -11,7 +12,11 @@ export const Header = styled.View`
   align-items: center;
   justify-content: space-between;
   padding-bottom: 1rem;
+`;
 
+export const PictureContainer = styled.View`
+  align-self: center;
+  justify-self: center;
 `;
 
 export const Form = styled.View`

@@ -10,9 +10,10 @@ import {
   useForm,
 } from "react-hook-form";
 
-const RegisterContext = React.createContext<IRegisterContext | null>(null);
+const RegisterContext = React.createContext<IUserContext | null>(null);
 
 export interface User {
+  id: string;
   email: string;
   password: string;
   password2: string;
@@ -21,14 +22,26 @@ export interface User {
   birthday: string;
   cpf: string;
   phone: string;
-  CEP: string;
+  cep: string;
   state: string;
   city: string;
   neighborhood: string;
   street: string;
   houseNumber: string;
   addressSuplement: string;
+  favoritedBooks: Book[];
+  publishedBooks: Book[];
+  imgUrl?: string;
 }
+
+interface Book {
+  id: number;
+  title: string;
+  price: string;
+  discount?: string;
+  imgUrl: string;
+}
+
 interface IUserContext {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;

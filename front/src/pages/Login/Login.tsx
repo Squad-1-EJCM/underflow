@@ -58,7 +58,7 @@ const Login = () => {
           console.log(e);
         });
       if (response?.data) {
-        setUser(response.data);
+        setUser(response.data.user);
         navigation.navigate("Home");
       }
     }

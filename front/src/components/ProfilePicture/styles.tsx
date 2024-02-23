@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 
 export const ProfilePictureContainer = styled.View<{ height?: string }>`
   height: ${({ height }) => (height ? height : "2.5rem")};
-  aspect-ratio: 1/1;
+  width: ${({ height }) => (height ? height : "2.5rem")};
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -11,7 +11,9 @@ export const ProfilePictureContainer = styled.View<{ height?: string }>`
 `;
 
 export const Image = styled.Image`
+  max-height: 100%;
   height: 100%;
-  aspect-ratio: 1/1;
+  max-width: 100%;
+  width: 100%;
   border-radius: 50%;
 `;

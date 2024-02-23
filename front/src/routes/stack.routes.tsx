@@ -37,7 +37,7 @@ export default function RootStackRoutes() {
         });
       // Se a resposta for positiva, o usuário vai para a página home
       if (response?.status === 200) {
-        setUser(response.data);
+        setUser(response.data.user);
         console.log(response.data);
         navigation.navigate("Home");
       }

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, Image, Pressable, View } from "react-native";
+import { FlatList, Image, Pressable, ScrollView, View } from "react-native";
 import {
   AddProduct,
   CarouselContainer,
@@ -17,58 +17,22 @@ import NotFound from "../../components/NotFound/NotFound";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RootDrawerParamList } from "../../routes/drawer.routes";
 import { useNavigation } from "@react-navigation/native";
+import { useUserContext } from "../../contexts/UserContext";
+import formatPrice from "../../utils/formatPrice";
 
 type ProfileScreen = DrawerNavigationProp<RootDrawerParamList, "Profile">;
 
-export interface User {
-  id: number;
-  cpf: string;
-  email: string;
-  name: string;
-  lastName: string;
-  state: string;
-  city: string;
-  neighborhood: string;
-  cep: string;
-  street: string;
-  houseNumber: string;
-  addressSupplement?: string;
-  birthday: Date;
-  phoneNumber: string;
-  imgUrl?: string;
-  favoritedBooks: Book[];
-  publishedBooks: Book[];
-}
-
-interface Book {
-  id: number;
-  title: string;
-  price: string;
-  discount?: string;
-  imgUrl: string;
-}
-
 const Profile = () => {
   const id = 1;
-  const [data, setData] = React.useState<User | null>(null);
   const navigation = useNavigation<ProfileScreen>();
 
-  React.useEffect(() => {
-    async function requestData() {
-      const request = await axios.get("mocks/user.json");
-      const data = request.data as User;
-      const { status } = request;
-      console.log(data);
-      if (status === 200 && data) {
-        setData(data);
-      }
-    }
-    requestData();
-  }, [id]);
+  const { user } = useUserContext();
+  const mock = require("../../../mocks/user.json");
+  console.log(mock);
 
-  if (data)
+  if (user && mock)
     return (
-      <View>
+      <ScrollView>
         <Header>
           <Pressable onPress={() => navigation.goBack()}>
             <Image source={require("../../assets/return.svg")} />
@@ -77,24 +41,30 @@ const Profile = () => {
             <Image source={require("../../assets/pen-to-square-solid 1.svg")} />
           </Pressable>
         </Header>
-        <ProfilePicture
-          image={require("../../assets/profile.svg")}
-          size="9.25rem"
-        />
+
         <HeaderTextContainer>
-          <MainText>{`${data.name} ${data.lastName}`}</MainText>
-          <GhostText>{data.city}</GhostText>
+          <ProfilePicture
+            image={
+              user?.imgUrl
+                ? {
+                    uri: user.imgUrl,
+                  }
+                : require("../../assets/user.jpg")
+            }
+            size="9.25rem"
+          />
+          <MainText>{`${user.name} ${user.lastName}`}</MainText>
+          <GhostText>{user.city}</GhostText>
         </HeaderTextContainer>
 
         <CarouselContainer>
           <MediumText>Produtos</MediumText>
-          {/* <NotFound
+          {/* <
             imgUrl={require("../../assets/no-products.png")}
-            text="Este usuário não possui produtos publicados"
-          ></NotFound> */}
+            text="Este usuário não possui produtos publicados"/> */}
           <FlatList
             data={[
-              ...data.favoritedBooks,
+              ...mock.publishedBooks,
               { title: null, imgUrl: null, discount: null, price: null! },
             ]}
             renderItem={({ item }) =>
@@ -105,10 +75,10 @@ const Profile = () => {
                 </AddProduct>
               ) : (
                 <CardBook
-                  title={item.title!}
-                  imgURL={item.imgUrl!}
+                  title={item.title}
+                  imgURL={item.imgUrl}
                   oldPrice=""
-                  price={item.price!}
+                  price={formatPrice(Number(item.price))}
                 />
               )
             }
@@ -122,26 +92,29 @@ const Profile = () => {
 
         <CarouselContainer>
           <MediumText>Favoritos</MediumText>
-          {/* <NotFound
-            imgUrl={require("../../assets/no-favorites.png")}
-            text="Este usuário não possui livros favoritados"
-          ></NotFound> */}
-          <FlatList
-            data={data.favoritedBooks}
-            renderItem={({ item }) => (
-              <CardBook
-                title={item.title}
-                imgURL={item.imgUrl}
-                oldPrice=""
-                price={item.price}
-              />
-            )}
-            keyExtractor={(item) => item.title}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-          />
+          {mock.favoritedBooks ? (
+            <FlatList
+              data={mock.favoritedBooks}
+              renderItem={({ item }) => (
+                <CardBook
+                  title={item.title}
+                  imgURL={item.imgUrl}
+                  oldPrice=""
+                  price={formatPrice(Number(item.price))}
+                />
+              )}
+              keyExtractor={(item) => item.title}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            />
+          ) : (
+            <NotFound
+              imgUrl={require("../../assets/no-favorites.png")}
+              text="Este usuário não possui livros favoritados"
+            />
+          )}
         </CarouselContainer>
-      </View>
+      </ScrollView>
     );
   else return null;
 };

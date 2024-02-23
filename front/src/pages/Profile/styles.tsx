@@ -41,6 +41,8 @@ export const GhostText = styled.Text`
 
 export const HeaderTextContainer = styled.View`
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 0.25rem;
 
   margin: 0.75rem 0 2.5rem;

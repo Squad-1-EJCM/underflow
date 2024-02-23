@@ -2,30 +2,27 @@ import React from "react";
 
 import { Image, Pressable, View } from "react-native";
 
-
-import { Header, Container, Form } from "./styles";
+import { Header, Container, Form, PictureContainer } from "./styles";
 import ProfilePicture from "../../components/ProfilePicture/ProfilePicture";
 import { Controller, useForm } from "react-hook-form";
-import { User } from "../Profile/Profile";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
-
 
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RootDrawerParamList } from "../../routes/drawer.routes";
 import { useNavigation } from "@react-navigation/native";
+import { useUserContext } from "../../contexts/UserContext";
 
 type ProfileScreen = DrawerNavigationProp<RootDrawerParamList, "Profile">;
 
 const UpdateUser = () => {
-  const user = require("../../../mocks/user.json") as User;
+  const { user } = useUserContext();
   const navigation = useNavigation<ProfileScreen>();
 
   function onSubmit() {
     console.log("Oi");
     navigation.navigate("Profile");
   }
-
 
   const {
     control,
@@ -34,20 +31,20 @@ const UpdateUser = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: user.email,
+      email: user?.email,
       password: "",
       password2: "",
-      name: user.name,
-      lastName: user.lastName,
-      cpf: user.cpf,
-      phone: user.phoneNumber,
-      CEP: user.cep,
-      state: user.state,
-      city: user.city,
-      neighborhood: user.neighborhood,
-      street: user.street,
-      houseNumber: user.houseNumber,
-      addressSuplement: user.addressSupplement,
+      name: user?.name,
+      lastName: user?.lastName,
+      cpf: user?.cpf,
+      phone: user?.phone,
+      CEP: user?.cep,
+      state: user?.state,
+      city: user?.city,
+      neighborhood: user?.neighborhood,
+      street: user?.street,
+      houseNumber: user?.houseNumber,
+      addressSuplement: user?.addressSuplement,
     },
   });
 
@@ -57,16 +54,22 @@ const UpdateUser = () => {
   return (
     <Container>
       <Header>
-
         <Pressable onPress={() => navigation.navigate("Profile")}>
           <Image source={require("../../assets/return.svg")} />
         </Pressable>
-
       </Header>
-      <ProfilePicture
-        image={require("../../assets/profile.svg")}
-        size="9.25rem"
-      />
+      <PictureContainer>
+        <ProfilePicture
+          image={
+            user?.imgUrl
+              ? {
+                  uri: user.imgUrl,
+                }
+              : require("../../assets/user.jpg")
+          }
+          size="9.25rem"
+        />
+      </PictureContainer>
       <Form>
         <Controller
           control={control}
@@ -335,7 +338,6 @@ const UpdateUser = () => {
       </Form>
 
       <Button onClick={handleSubmit(onSubmit)} text="Salvar" />
-
     </Container>
   );
 };
