@@ -7,22 +7,14 @@ import Routes from "./src/routes/routes";
 import RegisterContextProvider from "./src/contexts/RegisterContext";
 import SuccessPage from "./src/components/SuccessPage/SuccessPage";
 import Product from "./src/pages/Product/Product";
+import AddProduct from "./src/pages/AddProduct/AddProduct";
 
 export default function App() {
   return (
-    <Container>
-      {/* <RegisterContextProvider>
-        <Register />
-      </RegisterContextProvider> */}
-      <Product />
-    </Container>
+    <AddProduct/>
 
 
   );
 }
 
-const Container = styled.View`
-  width: 100vw;
-  min-height: 100vh;
-  overflow-y: scroll;
-`;
+
