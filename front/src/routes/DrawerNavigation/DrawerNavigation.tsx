@@ -1,14 +1,9 @@
+import { DrawerContentScrollView } from "@react-navigation/drawer";
 import {
-  DrawerContentScrollView,
-  createDrawerNavigator,
-} from "@react-navigation/drawer";
-import { Feather } from "@expo/vector-icons";
-import Home from "../../pages/Home/Home";
-import {
-  Container,
+  NavItem,
   Icon,
   Name,
-  OptionsView,
+  Nav,
   PhotoView,
   ProfilePhoto,
   Separator,
@@ -16,10 +11,20 @@ import {
   TopView,
   TotalView,
 } from "./styles";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../stack.routes";
+
+type HomeDrawerParamList = {
+  home: undefined;
+  Profile: undefined;
+};
+
+type SideMenu = DrawerNavigationProp<RootStackParamList & HomeDrawerParamList>;
 
 const sizeD = 30;
-const Drawer = createDrawerNavigator();
 const CustomDrawerContent: React.FC = () => {
+  const navigation = useNavigation<SideMenu>();
   return (
     <DrawerContentScrollView>
       <TotalView>
@@ -33,58 +38,37 @@ const CustomDrawerContent: React.FC = () => {
           </PhotoView>
           <Name>Nome de usuário</Name>
         </TopView>
-        <OptionsView>
-          <Container>
+        <Nav>
+          <NavItem onPress={() => navigation.navigate("Profile")}>
             <Icon source={require("../../assets/perfil_i.svg")} />
             <Subtitles>Perfil</Subtitles>
-          </Container>
-          <Separator></Separator>
-          <Container>
+
+          </NavItem>
+          <NavItem onPress={() => navigation.navigate("home")}>
             <Icon source={require("../../assets/home_i.svg")} />
             <Subtitles>Home</Subtitles>
-          </Container>
-          <Separator></Separator>
-          <Container>
+          </NavItem>
+          <NavItem>
             <Icon source={require("../../assets/favoritos_i.svg")} />
             <Subtitles>Favoritos</Subtitles>
-          </Container>
-          <Separator></Separator>
-          <Container>
+          </NavItem>
+          <NavItem>
             <Icon source={require("../../assets/carrinho_i.svg")} />
             <Subtitles>Carrinho</Subtitles>
-          </Container>
-          <Separator></Separator>
-          <Container>
+          </NavItem>
+          <NavItem>
             <Icon source={require("../../assets/caderno_i.svg")} />
             <Subtitles>Histórico de compras</Subtitles>
-          </Container>
-          <Separator></Separator>
-          <Container>
+          </NavItem>
+          <NavItem onPress={() => navigation.navigate("Login")}>
             <Icon source={require("../../assets/sair_i.svg")} />
             <Subtitles>Sair</Subtitles>
-          </Container>
-          <Separator></Separator>
-        </OptionsView>
+          </NavItem>
+        </Nav>
+
       </TotalView>
     </DrawerContentScrollView>
   );
 };
-export default function DrawerRoutes() {
-  return (
-    <Drawer.Navigator
-      drawerContent={CustomDrawerContent}
-      screenOptions={{
-        headerTintColor: "#33415C",
-        title: "",
-        headerStyle: {
-          backgroundColor: "#F1F4FF",
-        },
-        drawerStyle: {
-          backgroundColor: "#F1F4FF",
-        },
-      }}
-    >
-      <Drawer.Screen name="home" component={Home} />
-    </Drawer.Navigator>
-  );
-}
+
+export default CustomDrawerContent;

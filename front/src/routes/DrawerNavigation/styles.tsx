@@ -27,12 +27,12 @@ export const Name = styled.Text`
   font-weight: bold;
   font-size: 24px;
 `;
-export const OptionsView = styled.View`
+export const Nav = styled.View`
   display: flex;
   padding: 20px;
   gap: 24px;
 `;
-export const Container = styled.View`
+export const NavItem = styled.Pressable`
   flex-direction: row;
   gap: 16px;
   align-items: center;
@@ -42,11 +42,5 @@ export const Subtitles = styled.Text`
   font-size: 20px;
   color: #000;
   font-weight: medium;
-`;
-export const Separator = styled.View`
-  width: 100%;
-  height: 2px;
-  background: #33415c;
-  margin: 0.75rem 0;
 `;
 
