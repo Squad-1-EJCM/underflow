@@ -24,12 +24,10 @@ import authenticate from "../../utils/authenticate";
 type ProfileScreen = DrawerNavigationProp<RootDrawerParamList, "Profile">;
 
 const Profile = () => {
-  const id = 1;
   const navigation = useNavigation<ProfileScreen>();
 
   const { user } = useUserContext();
-  const mock = require("../../../mocks/user.json");
-  console.log(mock);
+  const { livros: mock } = require("../../../mocks/products.json");
 
   if (user && mock)
     return (
@@ -65,7 +63,7 @@ const Profile = () => {
             text="Este usuário não possui produtos publicados"/> */}
           <FlatList
             data={[
-              ...mock.publishedBooks,
+              ...mock,
               { title: null, imgUrl: null, discount: null, price: null! },
             ]}
             renderItem={({ item }) =>
@@ -88,9 +86,15 @@ const Profile = () => {
                 <CardBook
                   id={item.id}
                   title={item.title}
-                  imgURL={item.imgUrl}
-                  oldPrice=""
-                  price={formatPrice(Number(item.price))}
+                  imgURL={item.imagem_url}
+                  oldPrice={formatPrice(item.preco)}
+                  price={
+                    item.desconto
+                      ? formatPrice(
+                          (Number(item.preco) * Number(item.desconto)) / 100
+                        )
+                      : item.preco
+                  }
                 />
               )
             }
@@ -106,14 +110,20 @@ const Profile = () => {
           <MediumText>Favoritos</MediumText>
           {mock.favoritedBooks ? (
             <FlatList
-              data={mock.favoritedBooks}
+              data={mock}
               renderItem={({ item }) => (
                 <CardBook
                   id={item.id}
                   title={item.title}
-                  imgURL={item.imgUrl}
-                  oldPrice=""
-                  price={formatPrice(Number(item.price))}
+                  imgURL={item.imagem_url}
+                  oldPrice={formatPrice(item.preco)}
+                  price={
+                    item.desconto
+                      ? formatPrice(
+                          (Number(item.preco) * Number(item.desconto)) / 100
+                        )
+                      : item.preco
+                  }
                 />
               )}
               keyExtractor={(item) => item.title}

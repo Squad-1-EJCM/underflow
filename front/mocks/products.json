@@ -1,12 +1,12 @@
 {
-  "produtos": [
+  "livros": [
     {
       "id": 1,
-      "title": "Primeira edição britânica Hary Potter e o Enigma do Príncipe",
-      "imagem_url": "https://m.media-amazon.com/images/I/5165He67NEL._SY445_SX342_.jpg",
-      "autor": "Autor 1",
+      "title": "Primeira edição britânica Harry Potter e o Enigma do Príncipe",
+      "imagem_url": "https://m.media-amazon.com/images/I/71NsVQ5MlwL._SL1151_.jpg",
+      "autor": "J.K. Rowling",
       "edicao": "1ª edição",
-      "data_publicacao": "2022-01-01",
+      "data_publicacao": "2005-07-16",
       "preco": 50.0,
       "desconto": 10,
       "tipo_encadernacao": "Capa dura",
@@ -14,102 +14,59 @@
       "publicador": "Editora A",
       "genero": "Ficção",
       "idioma": "Português",
-      "descricao": "Descrição do produto 1",
+      "descricao": "Nesta edição especial, acompanhe Harry Potter em mais uma aventura repleta de magia e mistério.",
       "comentarios": [
         {
-          "usuario": "Usuário 1",
-          "comentario": "Magna sit cillum ea nulla excepteur nostrud excepteur duis ex consequat est ea labore culpa. Cupidatat sunt mollit deserunt Lorem cillum sit voluptate est veniam excepteur. Adipisicing voluptate non amet magna cupidatat cupidatat sunt eiusmod enim nostrud consequat. Nulla dolor culpa dolor quis et Lorem eu fugiat Lorem in magna exercitation sit ullamco."
+          "usuario": "Potterhead123",
+          "comentario": "Amei esta edição! A capa dura dá um toque especial à coleção."
         },
         {
-          "usuario": "Usuário 2",
-          "comentario": "Magna sit cillum ea nulla excepteur nostrud excepteur duis ex consequat est ea labore culpa. Cupidatat sunt mollit deserunt Lorem cillum sit voluptate est veniam excepteur. "
+          "usuario": "Livromaníaco",
+          "comentario": "Incrível! Esta edição é perfeita para os fãs de Harry Potter."
         }
       ]
     },
     {
       "id": 2,
-      "title": "Enim id fugiat labore ullamco in enim laborum et.",
-      "imagem_url": "https://source.unsplash.com/random/450x600?sig=1",
-      "autor": "Autor 2",
+      "title": "Segunda edição brasileira O Senhor dos Anéis",
+      "imagem_url": "https://m.media-amazon.com/images/I/81lQ5N0QwJL._SL1500_.jpg",
+      "autor": "J.R.R. Tolkien",
       "edicao": "2ª edição",
-      "data_publicacao": "2022-02-01",
-      "preco": 40.0,
-      "desconto": null,
+      "data_publicacao": "2012-05-10",
+      "preco": 80.0,
+      "desconto": 15,
       "tipo_encadernacao": "Brochura",
-      "integridade": "Usado",
+      "integridade": "Usado - Bom",
       "publicador": "Editora B",
-      "genero": "Não Ficção",
-      "idioma": "Inglês",
-      "descricao": "Descrição do produto 2",
+      "genero": "Fantasia",
+      "idioma": "Português",
+      "descricao": "Aclamada obra de J.R.R. Tolkien, agora em uma nova edição brasileira.",
       "comentarios": [
         {
-          "usuario": "Usuário 3",
-          "comentario": "Comentário 3"
+          "usuario": "TolkienFanatic",
+          "comentario": "Essa edição é um tesouro para os fãs de O Senhor dos Anéis. Altamente recomendada!"
         }
       ]
     },
     {
       "id": 3,
-      "title": "Amet proident sit reprehenderit aliqua.",
-      "imagem_url": "https://source.unsplash.com/random/",
-      "autor": "Autor 3",
-      "edicao": "3ª edição",
-      "data_publicacao": "2022-03-01",
-      "preco": 60.0,
+      "title": "Edição especial orginal O Pequeno Príncipe",
+      "imagem_url": "https://m.media-amazon.com/images/I/710Nd+Itq+L._SL1500_.jpg",
+      "autor": "Antoine de Saint-Exupéry",
+      "edicao": "Edição especial",
+      "data_publicacao": "1943-04-06",
+      "preco": 120.0,
       "desconto": 20,
-      "tipo_encadernacao": "Capa mole",
-      "integridade": "Semi-novo",
-      "publicador": "Editora C",
-      "genero": "Ficção Científica",
-      "idioma": "Espanhol",
-      "descricao": "Descrição do produto 3",
-      "comentarios": [
-        {
-          "usuario": "Usuário 4",
-          "comentario": "Comentário 4"
-        },
-        {
-          "usuario": "Usuário 5",
-          "comentario": "Comentário 5"
-        }
-      ]
-    },
-    {
-      "id": 4,
-      "title": "Pariatur labore ad enim aute.",
-      "imagem_url": "https://source.unsplash.com/random/",
-      "autor": "Autor 4",
-      "edicao": "4ª edição",
-      "data_publicacao": "2022-04-01",
-      "preco": 70.0,
-      "desconto": null,
       "tipo_encadernacao": "Capa dura",
       "integridade": "Novo",
-      "publicador": "Editora D",
-      "genero": "Romance",
+      "publicador": "Editora C",
+      "genero": "Conto",
       "idioma": "Português",
-      "descricao": "Descrição do produto 4",
-      "comentarios": []
-    },
-    {
-      "id": 5,
-      "title": "Laborum id velit aliquip consequat consectetur proident.",
-      "imagem_url": "https://source.unsplash.com/random/",
-      "autor": "Autor 5",
-      "edicao": "5ª edição",
-      "data_publicacao": "2022-05-01",
-      "preco": 80.0,
-      "desconto": 15,
-      "tipo_encadernacao": "Capa mole",
-      "integridade": "Usado",
-      "publicador": "Editora E",
-      "genero": "Aventura",
-      "idioma": "Francês",
-      "descricao": "Descrição do produto 5",
+      "descricao": "Esta edição especial apresenta O Pequeno Príncipe com ilustrações originais do autor.",
       "comentarios": [
         {
-          "usuario": "Usuário 6",
-          "comentario": "Comentário 6"
+          "usuario": "PrincipeFan",
+          "comentario": "Que edição maravilhosa! As ilustrações originais dão vida nova ao clássico de Saint-Exupéry."
         }
       ]
     }

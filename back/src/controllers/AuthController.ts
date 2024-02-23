@@ -17,7 +17,14 @@ class AuthController {
       if (Auth.checkPassword(password, user.hashPassword, user.salt)) {
         const token = Auth.generateJWT(user);
 
-        return res.status(200).json({ token: token });
+        res.cookie("token1", token, {
+          httpOnly: true,
+          sameSite: "strict",
+          secure: true,
+          maxAge: 3600000,
+        }); // Exemplo de configuração de cookie
+
+        return res.status(200).json({ email: user.email });
       } else {
         return res.status(401).json({ message: "Invalid Password." });
       }

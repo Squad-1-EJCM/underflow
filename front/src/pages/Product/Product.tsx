@@ -73,7 +73,7 @@ const Product = () => {
   React.useEffect(() => {
     async function requestData() {
       const request = await axios.get("mocks/products.json");
-      const data = request.data.produtos as Produto[];
+      const data = request.data.livros as Produto[];
       const { status } = request;
       if (status === 200 && data) {
         console.log(data);
