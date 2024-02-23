@@ -60,7 +60,13 @@ class BookController {
       const AllBooks = await prisma.book.findMany({
         where: {
           hasBeenpurchased: false,
-        },
+        },include:{
+          categories:{
+            select:{
+              category:true
+            }
+          }
+        }
       });
 
       return res.status(201).json(AllBooks);

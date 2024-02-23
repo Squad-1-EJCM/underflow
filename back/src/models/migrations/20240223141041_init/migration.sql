@@ -131,7 +131,7 @@ CREATE UNIQUE INDEX "user_phone_number_key" ON "user"("phone_number");
 CREATE UNIQUE INDEX "book_user_id_key" ON "book"("user_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "category_book_id_key" ON "category"("book_id");
+CREATE UNIQUE INDEX "category_book_id_category_key" ON "category"("book_id", "category");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "books_on_favorites_user_id_key" ON "books_on_favorites"("user_id");

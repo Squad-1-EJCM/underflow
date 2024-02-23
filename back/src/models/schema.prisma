@@ -60,10 +60,11 @@ model Book {
 }
 
 model Category {
-  bookId   Int    @unique @map("book_id")
+  bookId   Int    @map("book_id")
   book     Book   @relation(fields: [bookId], references: [id])
   category String
 
+  @@unique([bookId, category ])
   @@id([bookId, category])
   @@map("category")
 }
