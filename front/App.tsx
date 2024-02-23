@@ -11,13 +11,16 @@ import PurchaseCart from "./src/pages/PurchaseCart/PurchaseCart";
 import RegisterContextProvider from "./src/contexts/RegisterContext";
 import SuccessPage from "./src/components/SuccessPage/SuccessPage";
 import Product from "./src/pages/Product/Product";
-import AddProduct from "./src/pages/AddProduct/AddProduct";
-
+import Profile from "./src/pages/Profile/Profile";
+import UpdateUser from "./src/pages/UpdateUser/UpdateUser";
 
 export default function App() {
   return (
-    <PurchaseCart />
-
+    <Container>
+      {/* <RegisterContextProvider>
+        <Register />
+      </RegisterContextProvider> */}
+      {/* <Product /> */}
   );
 }
 
