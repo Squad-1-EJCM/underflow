@@ -16,10 +16,18 @@ export interface RegisterDataInterface {
   email: string;
   password: string;
   password2: string;
-  firstName: string;
-  secondName: string;
-  CPF: string;
+  name: string;
+  lastName: string;
+  birthday: string;
+  cpf: string;
   phone: string;
+  CEP: string;
+  state: string;
+  city: string;
+  neighborhood: string;
+  street: string;
+  houseNumber: string;
+  addressSuplement: string;
 }
 
 interface PaginationInterface {
@@ -38,6 +46,7 @@ interface IRegisterContext {
       password2: string;
       name: string;
       lastName: string;
+      birthday: string;
       cpf: string;
       phone: string;
       CEP: string;
@@ -55,6 +64,7 @@ interface IRegisterContext {
       password2: string;
       name: string;
       lastName: string;
+      birthday: string;
       cpf: string;
       phone: string;
       CEP: string;
@@ -73,6 +83,7 @@ interface IRegisterContext {
       password2: string;
       name: string;
       lastName: string;
+      birthday: string;
       cpf: string;
       phone: string;
       CEP: string;
@@ -89,6 +100,7 @@ interface IRegisterContext {
       password2: string;
       name: string;
       lastName: string;
+      birthday: string;
       cpf: string;
       phone: string;
       CEP: string;
@@ -106,6 +118,7 @@ interface IRegisterContext {
     password2: string;
     name: string;
     lastName: string;
+    birthday: string;
     cpf: string;
     phone: string;
     CEP: string;
@@ -122,6 +135,7 @@ interface IRegisterContext {
     password2: string;
     name: string;
     lastName: string;
+    birthday: string;
     cpf: string;
     phone: string;
     CEP: string;
@@ -138,6 +152,7 @@ interface IRegisterContext {
     password2: string;
     name: string;
     lastName: string;
+    birthday: string;
     cpf: string;
     phone: string;
     CEP: string;
@@ -154,6 +169,7 @@ interface IRegisterContext {
     password2: string;
     name: string;
     lastName: string;
+    birthday: string;
     cpf: string;
     phone: string;
     CEP: string;
@@ -187,6 +203,7 @@ const RegisterContextProvider = ({ children }: React.PropsWithChildren) => {
       password2: "",
       name: "",
       lastName: "",
+      birthday: "",
       cpf: "",
       phone: "",
       CEP: "",

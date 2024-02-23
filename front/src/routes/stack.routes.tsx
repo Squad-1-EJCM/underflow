@@ -4,6 +4,12 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import RegisterContextProvider from "../contexts/RegisterContext";
 import DrawerRoutes from "./drawer.routes";
+import { useNavigation } from "@react-navigation/native";
+import { useUserContext } from "../contexts/UserContext";
+import React from "react";
+import userService from "../services/userService.ts";
+
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -11,16 +17,33 @@ export type RootStackParamList = {
   Home: undefined;
 };
 
-/* export type ProfileStackParamList = {
-  profile: undefined;
-  EditProfile: undefined;
-  AddProduct: undefined;
-}; */
+type Auth = NativeStackNavigationProp<RootStackParamList, "Register">;
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-/* const ProfileStack = createNativeStackNavigator<ProfileStackParamList>(); */
 
 export default function RootStackRoutes() {
+  const navigation = useNavigation<Auth>();
+  const { setUser } = useUserContext();
+  React.useEffect(() => {
+    async function getUser() {
+      const response = await userService
+        .getDetails()
+        .then((response) => {
+          console.log(response);
+          return response;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      // Se a resposta for positiva, o usuário vai para a página home
+      if (response?.status === 200) {
+        setUser(response.data.user);
+        console.log(response.data);
+        navigation.navigate("Home");
+      }
+    }
+    getUser();
+  }, []);
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
@@ -32,18 +55,6 @@ export default function RootStackRoutes() {
     </Stack.Navigator>
   );
 }
-
-/* export function ProfileStackRoutes() {
-  return (
-    <ProfileStack.Navigator
-      screenOptions={{ headerShown: false }}
-      initialRouteName="profile"
-    >
-      <ProfileStack.Screen name="profile" component={Profile} />
-      <ProfileStack.Screen name="EditProfile" component={UpdateUser} />
-    </ProfileStack.Navigator>
-  );
-} */
 
 function RegisterWithContext() {
   return (

@@ -1,11 +1,9 @@
-
 import React from "react";
+import Routes from "./src/routes/index";
+import UserContextProvider from "./src/contexts/UserContext";
 import styled from "styled-components/native";
-
-
 import "react-native-gesture-handler";
 import Register from "./src/pages/Register/Register";
-import Routes from "./src/routes/routes";
 import { View } from "react-native";
 import FinishPurchase from "./src/pages/FinishPurchase/FinishPurchase";
 import PurchaseButtons from "./src/components/PurchaseButtons/PurchaseButtons";
@@ -31,17 +29,9 @@ export default function App() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   
   return (
-    //<Routes/>
-    <>
-    <OpenButton onPress={() => setIsModalVisible(true)}>
-        <OpenButtonText>ALO</OpenButtonText>
-      </OpenButton>
-<Modal isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible}>
-<ConfirmModal setIsModalVisible={setIsModalVisible}/>
-</Modal>
-    </>
-  //<PurchaseCart />
+    <UserContextProvider>
+      <Routes />
+    </UserContextProvider>
+
   );
 }
-
-

@@ -1,5 +1,12 @@
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import React from "react";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  useNavigation,
+} from "@react-navigation/native";
 import RootStackRoutes from "./stack.routes";
+import { useUserContext } from "../contexts/UserContext";
+import userService from "../services/userService.ts";
 
 export default function Routes() {
   const MyTheme = {
@@ -9,6 +16,7 @@ export default function Routes() {
       background: "#ffffff",
     },
   };
+
   return (
     <NavigationContainer theme={MyTheme}>
       <RootStackRoutes />
