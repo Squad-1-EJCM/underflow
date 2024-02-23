@@ -11,6 +11,7 @@ import {
   OptionsView,
   PhotoView,
   ProfilePhoto,
+  Separator,
   Subtitles,
   TopView,
   TotalView,
@@ -37,26 +38,32 @@ const CustomDrawerContent: React.FC = () => {
             <Icon source={require("../../assets/perfil_i.svg")} />
             <Subtitles>Perfil</Subtitles>
           </Container>
+          <Separator></Separator>
           <Container>
             <Icon source={require("../../assets/home_i.svg")} />
             <Subtitles>Home</Subtitles>
           </Container>
+          <Separator></Separator>
           <Container>
             <Icon source={require("../../assets/favoritos_i.svg")} />
             <Subtitles>Favoritos</Subtitles>
           </Container>
+          <Separator></Separator>
           <Container>
             <Icon source={require("../../assets/carrinho_i.svg")} />
             <Subtitles>Carrinho</Subtitles>
           </Container>
+          <Separator></Separator>
           <Container>
             <Icon source={require("../../assets/caderno_i.svg")} />
             <Subtitles>Histórico de compras</Subtitles>
           </Container>
+          <Separator></Separator>
           <Container>
             <Icon source={require("../../assets/sair_i.svg")} />
             <Subtitles>Sair</Subtitles>
           </Container>
+          <Separator></Separator>
         </OptionsView>
       </TotalView>
     </DrawerContentScrollView>
