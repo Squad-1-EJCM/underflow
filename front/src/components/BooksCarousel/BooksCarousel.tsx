@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Image, FlatList } from "react-native";
-import CardBook from "../CardBook/CardBook";
+import CardBook from "../BookCard/BookCard";
 import { ItemView, Title, Container } from "../BooksCarousel/styles";
-import { PriceMajor, PriceMinor } from "../CardBook/styles";
+import { PriceMajor, PriceMinor } from "../BookCard/styles";
 
 const values = [
   {

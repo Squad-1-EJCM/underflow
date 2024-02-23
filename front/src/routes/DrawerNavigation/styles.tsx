@@ -43,4 +43,10 @@ export const Subtitles = styled.Text`
   color: #000;
   font-weight: medium;
 `;
+export const Separator = styled.View`
+  width: 100%;
+  height: 2px;
+  background: #33415c;
+  margin: 0.75rem 0;
+`;
 
