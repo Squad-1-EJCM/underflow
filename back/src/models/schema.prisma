@@ -16,7 +16,7 @@ model User {
   name              String
   lastName          String             @map("last_name")
   salt              String
-  hassPassword      String             @map("hash_password")
+  hashPassword      String             @map("hash_password")
   state             String
   city              String
   neighborhood      String

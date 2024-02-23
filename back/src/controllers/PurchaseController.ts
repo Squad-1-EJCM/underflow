@@ -1,13 +1,17 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import AuthController from "./AuthController";
 
 const prisma = new PrismaClient();
 
 class PurchaseController {
   async create(req: Request, res: Response) {
     try {
-      const { cardId: cartId } = req.params;
-      const { paymentMethod } = req.body;
+      const { paymentMethod,cartId } = req.body;
+
+      const userId: number = await AuthController.getLoggedUserId(req, res);
+      if (!userId) return res.status(404).json({ message: "User not found." });
+
 
       const currentCart = await prisma.cart.findUnique({
         where: {
@@ -17,6 +21,9 @@ class PurchaseController {
 
       if (!currentCart)
         return res.status(404).json({ error: "Cart not found" });
+
+      if(userId != currentCart.userId) return res.status(403).json({ message: "Forbiden" });
+
 
       const createdPurchase = await prisma.purchase.create({
         data: {
@@ -70,7 +77,7 @@ class PurchaseController {
           }
         },
         where: {
-          id: Number(cartId),
+          id: cartId,
         },
       });
 
@@ -112,7 +119,9 @@ class PurchaseController {
 
   async showPurchasesFromUser(req: Request, res: Response) {
     try {
-      const { userId } = req.params;
+    
+      const userId: number = await AuthController.getLoggedUserId(req, res);
+      if (!userId) return res.status(404).json({ message: "User not found." });
 
       const purchasesOnUser = await prisma.purchaseOnUser.findMany({
         where: {
@@ -171,7 +180,11 @@ class PurchaseController {
   async delete(req:Request, res:Response){
     
     const { cardId: cartId } = req.params;
-    const { paymentMethod } = req.body;
+
+    
+    const userId: number = await AuthController.getLoggedUserId(req, res);
+    if (!userId) return res.status(404).json({ message: "User not found." });
+
 
     const currentCart = await prisma.cart.findUnique({
       where: {
@@ -181,6 +194,10 @@ class PurchaseController {
 
     if (!currentCart)
       return res.status(404).json({ error: "Cart not found" });
+
+   
+
+    if(userId != currentCart.userId) return res.status(403).json({ message: "Forbiden" });
 
     const deletedPurchase = await prisma.purchase.delete({
       where:{

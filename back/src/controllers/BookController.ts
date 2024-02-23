@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import CategoryController from "./CategoryController";
+import AuthController from "./AuthController";
 
 const prisma = new PrismaClient();
 
 class BookController {
   async create(req: Request, res: Response) {
     try {
-      const { userId } = req.params;
       const defaultImgUrl = ""; // TODO Gerenciar Upload de imagens
 
       const {
@@ -23,6 +23,10 @@ class BookController {
         description,
       } = req.body;
 
+      const userId: number = await AuthController.getLoggedUserId(req, res);
+
+      if (!userId) return res.status(404).json({ message: "User not found." });
+
       const createdBook = await prisma.book.create({
         data: {
           title: title,
@@ -37,7 +41,7 @@ class BookController {
           imgUrl: defaultImgUrl,
           publisherUser: {
             connect: {
-              id: Number(userId),
+              id: userId,
             },
           },
         },
@@ -95,9 +99,9 @@ class BookController {
         },
         include: {
           categories: {
-            select:{
-              category:true
-            }
+            select: {
+              category: true,
+            },
           },
           publisherUser: {
             select: {
@@ -119,7 +123,7 @@ class BookController {
   async update(req: Request, res: Response) {
     try {
       const defaultImgUrl = ""; // TODO: Gerenciar upload de imagens
-      const { id } = req.params;
+      const { bookId } = req.params;
 
       const {
         title,
@@ -132,6 +136,10 @@ class BookController {
         format,
         description,
       } = req.body;
+
+      const userId: number = await AuthController.getLoggedUserId(req, res);
+
+      if (!userId) return res.status(404).json({ message: "User not found." });
 
       const updatedBook = await prisma.book.update({
         data: {
@@ -146,23 +154,14 @@ class BookController {
           imgUrl: defaultImgUrl,
         },
         where: {
-          id: Number(id),
+          id: Number(bookId),
+          publisherUser: {
+            id: userId,
+          },
         },
       });
 
-      await Promise.all(
-        categories.map((category: string) => {
-          prisma.category.update({
-            data: {
-              bookId: Number(id),
-              category: category,
-            },
-            where: {
-              bookId: Number(id),
-            },
-          });
-        })
-      );
+      CategoryController.updateManyFromArray(categories, Number(bookId));
 
       if (updatedBook) {
         return res.status(201).json(updatedBook);
@@ -176,11 +175,17 @@ class BookController {
 
   async deleteBook(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const { bookId } = req.params;
+
+      const userId: number = await AuthController.getLoggedUserId(req, res);
+      if (!userId) return res.status(404).json({ message: "User not found." });
 
       const deletedBook = await prisma.book.delete({
         where: {
-          id: Number(id),
+          id: Number(bookId),
+          publisherUser: {
+            id: userId,
+          },
         },
       });
 
