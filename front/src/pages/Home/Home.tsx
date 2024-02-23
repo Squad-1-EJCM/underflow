@@ -1,5 +1,4 @@
 import { View } from "react-native";
-import Header from "../../components/HomeHeader/HomeHeader";
 import CategoriesCarousel from "../../components/CategoriesCarousel/CategoriesCarousel";
 import BooksCarousel from "../../components/BooksCarousel/BooksCarousel";
 import { HomeCarousel, Title } from "./style";

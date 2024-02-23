@@ -1,3 +1,4 @@
+
 import React from "react";
 import Login from "./src/pages/Login/Login";
 import styled from "styled-components/native";
@@ -11,6 +12,7 @@ import AddProduct from "./src/pages/AddProduct/AddProduct";
 export default function App() {
   return (
     <AddProduct/>
+
 
   );
 }
