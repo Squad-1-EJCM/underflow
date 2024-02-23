@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../stack.routes";
 import { useUserContext } from "../../contexts/UserContext";
 import authenticate from "../../utils/authenticate";
+import userService from "../../services/userService.ts";
 
 type HomeDrawerParamList = {
   home: undefined;
@@ -26,7 +27,26 @@ type SideMenu = DrawerNavigationProp<RootStackParamList & HomeDrawerParamList>;
 const sizeD = 30;
 const CustomDrawerContent: React.FC = () => {
   const navigation = useNavigation<SideMenu>();
-  const { user } = useUserContext();
+  const { user, setUser } = useUserContext();
+
+  const logoutHandler = async () => {
+    const response = await userService
+      .logout()
+      .then((response) => {
+        console.log(response);
+        return response;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    console.log(response);
+    // Se a resposta for positiva, o usuário vai para a página de conclusão
+    if (response?.status === 200) {
+      setUser(null);
+      navigation.navigate("Login");
+    }
+  };
+
   return (
     <DrawerContentScrollView>
       <TotalView>
@@ -77,11 +97,7 @@ const CustomDrawerContent: React.FC = () => {
             <Icon source={require("../../assets/caderno_i.svg")} />
             <Subtitles>Histórico de compras</Subtitles>
           </NavItem>
-          <NavItem
-            onPress={() => {
-              navigation.navigate("Login");
-            }}
-          >
+          <NavItem onPress={logoutHandler}>
             <Icon source={require("../../assets/sair_i.svg")} />
             <Subtitles>Sair</Subtitles>
           </NavItem>
