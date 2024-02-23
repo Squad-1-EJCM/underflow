@@ -1,0 +1,117 @@
+{
+  "produtos": [
+    {
+      "id": 1,
+      "title": "Primeira edição britânica Hary Potter e o Enigma do Príncipe",
+      "imagem_url": "https://m.media-amazon.com/images/I/5165He67NEL._SY445_SX342_.jpg",
+      "autor": "Autor 1",
+      "edicao": "1ª edição",
+      "data_publicacao": "2022-01-01",
+      "preco": 50.0,
+      "desconto": 10,
+      "tipo_encadernacao": "Capa dura",
+      "integridade": "Novo",
+      "publicador": "Editora A",
+      "genero": "Ficção",
+      "idioma": "Português",
+      "descricao": "Descrição do produto 1",
+      "comentarios": [
+        {
+          "usuario": "Usuário 1",
+          "comentario": "Magna sit cillum ea nulla excepteur nostrud excepteur duis ex consequat est ea labore culpa. Cupidatat sunt mollit deserunt Lorem cillum sit voluptate est veniam excepteur. Adipisicing voluptate non amet magna cupidatat cupidatat sunt eiusmod enim nostrud consequat. Nulla dolor culpa dolor quis et Lorem eu fugiat Lorem in magna exercitation sit ullamco."
+        },
+        {
+          "usuario": "Usuário 2",
+          "comentario": "Magna sit cillum ea nulla excepteur nostrud excepteur duis ex consequat est ea labore culpa. Cupidatat sunt mollit deserunt Lorem cillum sit voluptate est veniam excepteur. "
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Enim id fugiat labore ullamco in enim laborum et.",
+      "imagem_url": "https://source.unsplash.com/random/450x600?sig=1",
+      "autor": "Autor 2",
+      "edicao": "2ª edição",
+      "data_publicacao": "2022-02-01",
+      "preco": 40.0,
+      "desconto": null,
+      "tipo_encadernacao": "Brochura",
+      "integridade": "Usado",
+      "publicador": "Editora B",
+      "genero": "Não Ficção",
+      "idioma": "Inglês",
+      "descricao": "Descrição do produto 2",
+      "comentarios": [
+        {
+          "usuario": "Usuário 3",
+          "comentario": "Comentário 3"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Amet proident sit reprehenderit aliqua.",
+      "imagem_url": "https://source.unsplash.com/random/",
+      "autor": "Autor 3",
+      "edicao": "3ª edição",
+      "data_publicacao": "2022-03-01",
+      "preco": 60.0,
+      "desconto": 20,
+      "tipo_encadernacao": "Capa mole",
+      "integridade": "Semi-novo",
+      "publicador": "Editora C",
+      "genero": "Ficção Científica",
+      "idioma": "Espanhol",
+      "descricao": "Descrição do produto 3",
+      "comentarios": [
+        {
+          "usuario": "Usuário 4",
+          "comentario": "Comentário 4"
+        },
+        {
+          "usuario": "Usuário 5",
+          "comentario": "Comentário 5"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Pariatur labore ad enim aute.",
+      "imagem_url": "https://source.unsplash.com/random/",
+      "autor": "Autor 4",
+      "edicao": "4ª edição",
+      "data_publicacao": "2022-04-01",
+      "preco": 70.0,
+      "desconto": null,
+      "tipo_encadernacao": "Capa dura",
+      "integridade": "Novo",
+      "publicador": "Editora D",
+      "genero": "Romance",
+      "idioma": "Português",
+      "descricao": "Descrição do produto 4",
+      "comentarios": []
+    },
+    {
+      "id": 5,
+      "title": "Laborum id velit aliquip consequat consectetur proident.",
+      "imagem_url": "https://source.unsplash.com/random/",
+      "autor": "Autor 5",
+      "edicao": "5ª edição",
+      "data_publicacao": "2022-05-01",
+      "preco": 80.0,
+      "desconto": 15,
+      "tipo_encadernacao": "Capa mole",
+      "integridade": "Usado",
+      "publicador": "Editora E",
+      "genero": "Aventura",
+      "idioma": "Francês",
+      "descricao": "Descrição do produto 5",
+      "comentarios": [
+        {
+          "usuario": "Usuário 6",
+          "comentario": "Comentário 6"
+        }
+      ]
+    }
+  ]
+}
