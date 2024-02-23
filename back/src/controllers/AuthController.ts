@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Auth from "../config/auth";
+// import { serialize } from 'cookie';
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -17,7 +18,6 @@ class AuthController {
         const token = Auth.generateJWT(user);
 
         return res.status(200).json({ token: token });
-
       } else {
         return res.status(401).json({ message: "Invalid Password." });
       }
@@ -45,7 +45,22 @@ class AuthController {
 
         const payload = Auth.decodeJWT(token);
         const user = await prisma.user.findUnique({
-          where: { id: payload.sub }
+          where: { id: payload.sub },
+          include: {
+            favoritedBooks: {
+              select: {
+                favoritedBook: {
+                  select: {
+                    id: true,
+                    title: true,
+                    imgUrl: true,
+                    price: true,
+                    discount: true,
+                  },
+                },
+              },
+            },
+          },
         });
 
         if (!user) return res.status(404).json({ message: "User not found." });
