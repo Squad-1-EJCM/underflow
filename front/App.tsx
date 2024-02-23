@@ -1,13 +1,28 @@
-import "react-native-gesture-handler";
+
+import React from "react";
+import Login from "./src/pages/Login/Login";
+import styled from "styled-components/native";
+import Register from "./src/pages/Register/Register";
 import Routes from "./src/routes/routes";
-import { View } from "react-native";
-import FinishPurchase from "./src/pages/FinishPurchase/FinishPurchase";
-import PurchaseButtons from "./src/components/PurchaseButtons/PurchaseButtons";
+import RegisterContextProvider from "./src/contexts/RegisterContext";
+import SuccessPage from "./src/components/SuccessPage/SuccessPage";
+import Product from "./src/pages/Product/Product";
 
 export default function App() {
   return (
-    //<Routes/>
+    <Container>
+      {/* <RegisterContextProvider>
+        <Register />
+      </RegisterContextProvider> */}
+      <Product />
+    </Container>
 
-    <FinishPurchase />
+
   );
 }
+
+const Container = styled.View`
+  width: 100vw;
+  min-height: 100vh;
+  overflow-y: scroll;
+`;
