@@ -171,11 +171,7 @@ class PurchaseController {
     }
   }
 
-  // TODO: Consultar Antonio/Francisco sobre regra de negocio pra isso
-  async updatePurchase(req:Request, res:Response){
-
-  }
-
+  
   // TODO: Conversar com o Antonio/Francisco sobre a regra de negocio pra isso
   async delete(req:Request, res:Response){
     

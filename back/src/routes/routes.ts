@@ -64,8 +64,8 @@ router.delete("/cart/book/:cartId", CartController.deleteBookFromCart);
 router.delete("/cart/:cartId", CartController.deleteCart);
 
 // Purchase Routes
-router.get("/purchase/:userId", PurchaseController.showPurchasesFromUser);
-router.get("/purchases", PurchaseController.showAll);
+router.get("/purchases", PurchaseController.showPurchasesFromUser);
+router.get("/purchases/all", PurchaseController.showAll);
 router.post("/purchase/:cartId", PurchaseController.create);
 router.delete("/purchase/:cartId", PurchaseController.delete);
 
