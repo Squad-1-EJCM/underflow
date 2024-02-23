@@ -12,6 +12,7 @@ const router = Router();
 
 // Auth Routes
 router.post("/login",AuthController.login)
+router.post("/logout",AuthController.logout)
 router.get("/profile",AuthController.getDetails)
 
 // User Routes

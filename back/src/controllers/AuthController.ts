@@ -34,6 +34,16 @@ class AuthController {
     }
   }
 
+  async logout(req: Request, res: Response) {
+
+    res.cookie("papiro", "none", {
+      expires: new Date(Date.now() + 5 * 1000),
+      httpOnly: true,
+    });
+    
+    return res.status(200).json({ success: true, message: "User logged out successfully" });
+  }
+
   async getDetails(req: Request, res: Response) {
     try {
       const cookiesHeader = req.headers.cookie;
