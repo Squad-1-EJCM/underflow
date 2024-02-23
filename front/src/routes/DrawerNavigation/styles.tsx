@@ -43,3 +43,4 @@ export const Subtitles = styled.Text`
   color: #000;
   font-weight: medium;
 `;
+

@@ -6,6 +6,7 @@ import {
   Nav,
   PhotoView,
   ProfilePhoto,
+  Separator,
   Subtitles,
   TopView,
   TotalView,
@@ -41,6 +42,7 @@ const CustomDrawerContent: React.FC = () => {
           <NavItem onPress={() => navigation.navigate("Profile")}>
             <Icon source={require("../../assets/perfil_i.svg")} />
             <Subtitles>Perfil</Subtitles>
+
           </NavItem>
           <NavItem onPress={() => navigation.navigate("home")}>
             <Icon source={require("../../assets/home_i.svg")} />
@@ -63,6 +65,7 @@ const CustomDrawerContent: React.FC = () => {
             <Subtitles>Sair</Subtitles>
           </NavItem>
         </Nav>
+
       </TotalView>
     </DrawerContentScrollView>
   );

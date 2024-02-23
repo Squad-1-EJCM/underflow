@@ -18,7 +18,9 @@ import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RootDrawerParamList } from "../../routes/drawer.routes";
 import { useNavigation } from "@react-navigation/native";
 
+
 type ProfileScreen = DrawerNavigationProp<RootDrawerParamList, "Profile">;
+
 
 export interface User {
   id: number;

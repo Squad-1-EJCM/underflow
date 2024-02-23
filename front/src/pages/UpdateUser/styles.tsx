@@ -11,6 +11,7 @@ export const Header = styled.View`
   align-items: center;
   justify-content: space-between;
   padding-bottom: 1rem;
+
 `;
 
 export const Form = styled.View`

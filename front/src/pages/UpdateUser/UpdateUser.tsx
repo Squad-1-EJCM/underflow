@@ -1,11 +1,15 @@
 import React from "react";
+
 import { Image, Pressable, View } from "react-native";
+
+
 import { Header, Container, Form } from "./styles";
 import ProfilePicture from "../../components/ProfilePicture/ProfilePicture";
 import { Controller, useForm } from "react-hook-form";
 import { User } from "../Profile/Profile";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
+
 
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RootDrawerParamList } from "../../routes/drawer.routes";
@@ -21,6 +25,7 @@ const UpdateUser = () => {
     console.log("Oi");
     navigation.navigate("Profile");
   }
+
 
   const {
     control,
@@ -52,9 +57,11 @@ const UpdateUser = () => {
   return (
     <Container>
       <Header>
+
         <Pressable onPress={() => navigation.navigate("Profile")}>
           <Image source={require("../../assets/return.svg")} />
         </Pressable>
+
       </Header>
       <ProfilePicture
         image={require("../../assets/profile.svg")}
@@ -326,7 +333,9 @@ const UpdateUser = () => {
           name="phone"
         />
       </Form>
+
       <Button onClick={handleSubmit(onSubmit)} text="Salvar" />
+
     </Container>
   );
 };
