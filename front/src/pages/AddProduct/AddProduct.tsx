@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import {
   AddProductView,
   AddImage,
@@ -15,6 +15,14 @@ import Input from "../../components/Input/Input";
 import { Controller, useForm } from "react-hook-form";
 import { ButtonsContainer } from "../Login/styles";
 import Button from "../../components/Button/Button";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootDrawerParamList } from "../../routes/drawer.routes";
+
+type AddProductPage = NativeStackNavigationProp<
+  RootDrawerParamList,
+  "AddProduct"
+>;
 
 const AddProduct = () => {
   const {
@@ -34,11 +42,18 @@ const AddProduct = () => {
       discount: "",
     },
   });
+  const navigation = useNavigation<AddProductPage>();
 
   return (
     <AddProductView>
       <HeaderView>
-        <Icon source={require("../../assets/voltar.svg")} />
+        <Pressable
+          onPress={() => {
+            navigation.navigate("Profile");
+          }}
+        >
+          <Icon source={require("../../assets/voltar.svg")} />
+        </Pressable>
         <Title>Adicionar produto</Title>
       </HeaderView>
       <BoxImageView>
@@ -211,8 +226,15 @@ const AddProduct = () => {
       <ButtonsContainer
         style={{ paddingBottom: 24, paddingRight: 16, marginTop: 8 }}
       >
-        <Button text="Adicionar produto" onClick={() => {}} />
+        <Button
+          text="Adicionar produto"
+          onClick={handleSubmit(() => {
+            navigation.navigate("Profile");
+          })}
+        />
       </ButtonsContainer>
     </AddProductView>
   );
 };
+
+export default AddProduct;

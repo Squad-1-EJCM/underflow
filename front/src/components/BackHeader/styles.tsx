@@ -20,10 +20,10 @@ export const IconBook = styled.Image`
   width: 28px;
   height: 50px;
 `;
-export const IconBackView = styled.View`
+export const IconBackView = styled.Pressable`
   justify-content: flex-start;
 `;
-export const IconBookView = styled.View`
+export const IconBookView = styled.Pressable`
   position: absolute;
   transform: translateX(-14px);
   left: 50%;

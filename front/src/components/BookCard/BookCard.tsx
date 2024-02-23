@@ -10,22 +10,36 @@ import {
   ImageView,
   IconCart,
   InferiorView,
-  LeftView
+  LeftView,
 } from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
-interface CardBookInterface{
-  title: string
-  oldPrice:string
-  price:string
-  imgURL:string
+interface CardBookInterface {
+  id: string;
+  title: string;
+  oldPrice: string;
+  price: string;
+  imgURL: string;
 }
 
-
-const CardBook = ({title, oldPrice, price, imgURL}: CardBookInterface) => {
+const CardBook = ({
+  id,
+  title,
+  oldPrice,
+  price,
+  imgURL,
+}: CardBookInterface) => {
+  const navigation = useNavigation();
   return (
-    <Card>
+    <Card
+      onPress={() =>
+        navigation.navigate("Product", {
+          itemId: id,
+        })
+      }
+    >
       <ImageView>
-        <BookImage source={{uri: imgURL}} />
+        <BookImage source={{ uri: imgURL }} />
       </ImageView>
       <InferiorView>
         <Title numberOfLines={2} ellipsizeMode="tail">

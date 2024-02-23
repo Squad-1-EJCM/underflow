@@ -8,7 +8,7 @@ export const SpacingContainer = styled.View<{
   margin: ${({ margin }) => (margin ? margin : 0)};
 `;
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   display: flex;
   flex-direction: column;
   width: 100%;

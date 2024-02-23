@@ -19,6 +19,7 @@ import { RootDrawerParamList } from "../../routes/drawer.routes";
 import { useNavigation } from "@react-navigation/native";
 import { useUserContext } from "../../contexts/UserContext";
 import formatPrice from "../../utils/formatPrice";
+import authenticate from "../../utils/authenticate";
 
 type ProfileScreen = DrawerNavigationProp<RootDrawerParamList, "Profile">;
 
@@ -69,12 +70,23 @@ const Profile = () => {
             ]}
             renderItem={({ item }) =>
               item.title === null ? (
-                <AddProduct>
+                <AddProduct
+                  onPress={() =>
+                    authenticate(
+                      user,
+                      () => navigation.navigate("AddProduct"),
+                      () => {
+                        console.log("Visitante");
+                      }
+                    )
+                  }
+                >
                   <Image source={require("../../assets/Plus.svg")} />
                   <SmallText>Adicionar produto</SmallText>
                 </AddProduct>
               ) : (
                 <CardBook
+                  id={item.id}
                   title={item.title}
                   imgURL={item.imgUrl}
                   oldPrice=""
@@ -97,6 +109,7 @@ const Profile = () => {
               data={mock.favoritedBooks}
               renderItem={({ item }) => (
                 <CardBook
+                  id={item.id}
                   title={item.title}
                   imgURL={item.imgUrl}
                   oldPrice=""

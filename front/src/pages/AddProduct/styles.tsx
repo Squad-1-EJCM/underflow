@@ -2,7 +2,7 @@ import styled from "styled-components/native";
 
 export const AddProductView = styled.ScrollView`
   display: flex;
-  padding-left: 16px;
+  margin: 0 1rem;
   height: 100%;
 `;
 export const HeaderView = styled.View`
@@ -24,7 +24,7 @@ export const BoxImageView = styled.View`
   padding-bottom: 24px;
 `;
 export const BoxView = styled.View`
-  width: 398px;
+  width: 100%;
   height: 170px;
   background-color: #f1f4ff;
   align-items: center;
@@ -38,6 +38,4 @@ export const BoxTitle = styled.Text`
   font-size: 20px;
   font-weight: 500;
 `;
-export const InputView = styled.View`
-  padding-right: 16px;
-`;
+export const InputView = styled.View``;

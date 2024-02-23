@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 
-export const Card = styled.View`
+export const Card = styled.Pressable`
   margin: 10px;
   display: flex;
   width: 185px;

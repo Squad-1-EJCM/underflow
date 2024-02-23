@@ -33,6 +33,11 @@ import ProfilePicture from "../../components/ProfilePicture/ProfilePicture";
 import InformationKeyValueItem from "../../components/InformationKeyValueItem/InformationKeyValueItem";
 import CommentForm from "../../components/CommentForm/CommentForm";
 import Comment from "../../components/Comment/Comment";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootDrawerParamList } from "../../routes/drawer.routes";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { View } from "react-native";
 
 interface Comentario {
   usuario: string;
@@ -57,9 +62,13 @@ interface Produto {
   comentarios: Comentario[];
 }
 
+type ProductScreen = DrawerNavigationProp<RootDrawerParamList, "Product">;
+
 const Product = () => {
   const id = 1;
   const [data, setData] = React.useState<Produto | null>(null);
+
+  const navigation = useNavigation<ProductScreen>();
 
   React.useEffect(() => {
     async function requestData() {
@@ -121,7 +130,12 @@ const Product = () => {
             </PublisherData>
             <Report>Denunciar</Report>
           </PublisherFlexBox>
-          <Button text="Adicionar ao carrinho" onClick={() => {}} />
+          <Button
+            text="Adicionar ao carrinho"
+            onClick={() => {
+              navigation.navigate("Cart");
+            }}
+          />
           <InformationTitle>Informações</InformationTitle>
           <InformationContainer>
             <InformationKeyValueItem title="Livro" value={data.title} />
@@ -145,15 +159,14 @@ const Product = () => {
           <CommentForm />
           <SpacingContainer margin="2.5rem 0">
             {data.comentarios.map((comment, index) => {
-              console.log(index + 1 < data?.comentarios.length);
               return (
-                <>
+                <View key={index}>
                   <Comment
                     name={comment.usuario}
                     comment={comment.comentario}
                   />
                   {index + 1 < data?.comentarios.length ? <Separator /> : null}
-                </>
+                </View>
               );
             })}
           </SpacingContainer>
