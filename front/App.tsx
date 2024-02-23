@@ -4,6 +4,11 @@ import UserContextProvider from "./src/contexts/UserContext";
 import styled from "styled-components/native";
 import "react-native-gesture-handler";
 import Register from "./src/pages/Register/Register";
+import RegisterContextProvider from "./src/contexts/RegisterContext";
+import SuccessPage from "./src/components/SuccessPage/SuccessPage";
+import Product from "./src/pages/Product/Product";
+import AddProduct from "./src/pages/AddProduct/AddProduct";
+import FinishScreen from "./src/pages/FinishScreen/FinishScreen";
 import { View } from "react-native";
 import FinishPurchase from "./src/pages/FinishPurchase/FinishPurchase";
 import PurchaseButtons from "./src/components/PurchaseButtons/PurchaseButtons";
@@ -34,4 +39,5 @@ export default function App() {
     </UserContextProvider>
 
   );
+
 }
