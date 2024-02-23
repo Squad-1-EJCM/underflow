@@ -9,7 +9,8 @@
     "keys": "npx ts-node src/config/generateRSAKeyPair.ts"
   },
   "prisma": {
-    "schema": "src/models/schema.prisma"
+    "schema": "src/models/schema.prisma",
+    "seed":"npx ts-node-dev --transpile-only --no-notify src/models/db/seed.ts"
   },
   "keywords": [],
   "author": "",
