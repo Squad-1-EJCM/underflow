@@ -12,15 +12,13 @@ import {
 } from "./styles";
 import ProfilePicture from "../../components/ProfilePicture/ProfilePicture";
 import axios from "axios";
-import CardBook from "../../components/CardBook/CardBook";
+import CardBook from "../../components/BookCard/BookCard";
 import NotFound from "../../components/NotFound/NotFound";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RootDrawerParamList } from "../../routes/drawer.routes";
 import { useNavigation } from "@react-navigation/native";
 
-
 type ProfileScreen = DrawerNavigationProp<RootDrawerParamList, "Profile">;
-
 
 export interface User {
   id: number;

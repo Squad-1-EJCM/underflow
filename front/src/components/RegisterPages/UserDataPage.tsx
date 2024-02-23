@@ -1,19 +1,34 @@
 import React from "react";
 import AuthForm from "../AuthForm/AuthForm";
-import { Controller } from "react-hook-form";
+import { Controller, SubmitHandler } from "react-hook-form";
 import Input from "../Input/Input";
 import { ButtonsContainer, Container } from "../../pages/Register/styles";
 import Button from "../Button/Button";
-import { useRegisterContext } from "../../contexts/RegisterContext";
+import {
+  RegisterDataInterface,
+  useRegisterContext,
+} from "../../contexts/RegisterContext";
+import userService from "../../services/userService.ts";
+import registerDataFormat from "../../utils/registerDataFormat";
 
 const UserDataPage = () => {
   const { pagination, control, handleSubmit, errors, watch } =
     useRegisterContext();
 
-  function onSubmit(data: any) {
-    console.log(data);
-    pagination.goNext();
-  }
+  const onSubmit: SubmitHandler<RegisterDataInterface> = async (data) => {
+    const response = await userService
+      .register(registerDataFormat(data))
+      .then((response) => {
+        console.log(response);
+        return response;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    console.log(response);
+    // Se a resposta for positiva, o usuário vai para a página de conclusão
+    if (response?.status === 201) pagination.goNext();
+  };
 
   return (
     <Container>
@@ -51,6 +66,27 @@ const UserDataPage = () => {
             required: "Preencha o campo",
           }}
           name="lastName"
+        />
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              placeholder="DD/MM/YYYY"
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              label="Data de nascimento"
+              error={errors.birthday}
+            />
+          )}
+          rules={{
+            required: "Preencha o campo",
+            pattern: {
+              value: /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
+              message: "Data inválida",
+            },
+          }}
+          name="birthday"
         />
         <Controller
           control={control}
