@@ -12,6 +12,7 @@ const router = Router();
 
 // Auth Routes
 router.post("/login",AuthController.login)
+router.post("/logout",AuthController.logout)
 router.get("/profile",AuthController.getDetails)
 
 // User Routes
@@ -57,15 +58,15 @@ router.delete("/category/:bookId", CategoryController.deleteCategoryFromBook);
 // Cart Routes
 router.get("/cart/:userId", CartController.getBooksOnCart);
 router.get("/carts", CartController.showAllCarts);
-router.post("/cart/:userId", CartController.create);
+router.post("/cart", CartController.create);
 router.post("/cart/book/:bookId", CartController.insertBookOnCart);
 router.put("/cart/book/:cartId", CartController.updateBookOnCart);
 router.delete("/cart/book/:cartId", CartController.deleteBookFromCart);
 router.delete("/cart/:cartId", CartController.deleteCart);
 
 // Purchase Routes
-router.get("/purchase/:userId", PurchaseController.showPurchasesFromUser);
-router.get("/purchases", PurchaseController.showAll);
+router.get("/purchases", PurchaseController.showPurchasesFromUser);
+router.get("/purchases/all", PurchaseController.showAll);
 router.post("/purchase/:cartId", PurchaseController.create);
 router.delete("/purchase/:cartId", PurchaseController.delete);
 

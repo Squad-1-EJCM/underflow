@@ -76,6 +76,8 @@ class CartController {
 
   async insertBookOnCart(req: Request, res: Response) {
     try {
+
+
       const { bookId, ammount } = req.body;
       const userId: number = await AuthController.getLoggedUserId(req, res);
       if (!userId) return res.status(404).json({ message: "User not found." });
@@ -149,6 +151,19 @@ class CartController {
     try {
       const { cartId } = req.params;
 
+      const userId: number = await AuthController.getLoggedUserId(req, res);
+      if (!userId) return res.status(404).json({ message: "User not found." });
+
+      const cartToBeShown = await prisma.cart.findUnique({
+        where:{
+          id:Number(cartId)
+        }
+      })
+
+      if(!cartToBeShown) return res.status(404).json({ message: "Cart not found." });
+      
+      if(cartToBeShown.userId != userId) return res.status(403).json({ message: "Forbiden." });
+
       const booksOnCart = await prisma.booksOnCart.findMany({
         where: {
           cartId: Number(cartId),
@@ -182,11 +197,17 @@ class CartController {
       const { cartId } = req.params;
       const { bookId, ammount: newAmmount } = req.body;
 
+      const userId: number = await AuthController.getLoggedUserId(req, res);
+      if (!userId) return res.status(404).json({ message: "User not found." });
+
       const cart = await prisma.cart.findUnique({
         where: {
           id: Number(cartId),
         },
       });
+
+      if (cart?.userId != userId) return res.status(403).json({ message: "Forbiden." });
+
 
       const book = await prisma.book.findUnique({
         where: {
@@ -241,10 +262,16 @@ class CartController {
       const { cartId } = req.params;
       const { bookId } = req.body;
 
+      const userId: number = await AuthController.getLoggedUserId(req, res);
+      if (!userId) return res.status(404).json({ message: "User not found." });
+
       const deletedBookOnCart = await prisma.booksOnCart.delete({
         where: {
-          cartId: Number(cartId),
-          bookId: bookId,
+          cart:{
+            id:Number(cartId),
+            userId:userId
+          },
+          bookId: bookId,       
         },
       });
 
