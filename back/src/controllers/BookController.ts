@@ -137,9 +137,20 @@ class BookController {
         description,
       } = req.body;
 
+      const bookToBeUpdated = await prisma.book.findUnique({
+        where:{
+          id:Number(bookId)
+        }
+      })
+
+      if(!bookToBeUpdated) return res.status(404).json({ message: "Book not found." }); 
+
       const userId: number = await AuthController.getLoggedUserId(req, res);
 
-      if (!userId) return res.status(404).json({ message: "User not found." });
+      if (!userId) return res.status(403).json({ message: "Forbiden." });
+
+      if(userId != bookToBeUpdated.userId) return res.status(403).json({ message: "Forbiden." });
+
 
       const updatedBook = await prisma.book.update({
         data: {
@@ -177,8 +188,20 @@ class BookController {
     try {
       const { bookId } = req.params;
 
+      
+
+      const bookToBeDeleted = await prisma.book.findUnique({
+        where:{
+          id:Number(bookId)
+        }
+      })
+
+      if(!bookToBeDeleted) return res.status(404).json({ message: "Book not found." }); 
+
       const userId: number = await AuthController.getLoggedUserId(req, res);
-      if (!userId) return res.status(404).json({ message: "User not found." });
+      if (!userId) return res.status(403).json({ message: "Forbiden." });
+
+      if(userId != bookToBeDeleted.userId) return res.status(403).json({ message: "Forbiden." });
 
       const deletedBook = await prisma.book.delete({
         where: {

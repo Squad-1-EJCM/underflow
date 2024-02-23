@@ -57,7 +57,7 @@ router.delete("/category/:bookId", CategoryController.deleteCategoryFromBook);
 // Cart Routes
 router.get("/cart/:userId", CartController.getBooksOnCart);
 router.get("/carts", CartController.showAllCarts);
-router.post("/cart/:userId", CartController.create);
+router.post("/cart", CartController.create);
 router.post("/cart/book/:bookId", CartController.insertBookOnCart);
 router.put("/cart/book/:cartId", CartController.updateBookOnCart);
 router.delete("/cart/book/:cartId", CartController.deleteBookFromCart);
