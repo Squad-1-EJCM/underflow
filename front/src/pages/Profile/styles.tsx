@@ -54,7 +54,7 @@ export const CarouselContainer = styled.View`
   margin-bottom: 3.5rem;
 `;
 
-export const AddProduct = styled.View`
+export const AddProduct = styled.Pressable`
   display: flex;
   align-items: center;
   justify-content: center;

@@ -17,6 +17,7 @@ class AuthController {
       if (Auth.checkPassword(password, user.hashPassword, user.salt)) {
         const token = Auth.generateJWT(user);
 
+
         res.cookie("papiro", token, {
           httpOnly: true,
           sameSite: "strict",

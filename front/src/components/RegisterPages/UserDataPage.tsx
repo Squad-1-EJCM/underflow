@@ -77,6 +77,12 @@ const UserDataPage = () => {
               onBlur={onBlur}
               label="Data de nascimento"
               error={errors.birthday}
+              mask={{
+                type: "datetime",
+                options: {
+                  format: "DD/MM/YYYY",
+                },
+              }}
             />
           )}
           rules={{
