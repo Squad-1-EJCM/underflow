@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@dotlottie/react-player": "^1.6.17",
-    "@lottiefiles/react-lottie-player": "^3.5.3",
-    "lottie-react-native": "^6.6.0"
-  }
-}
