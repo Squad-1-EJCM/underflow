@@ -1,9 +1,9 @@
 import React from "react";
 import { ProfilePictureContainer, Image } from "./styles";
 
-const ProfilePicture = ({ image }: { image: any }) => {
+const ProfilePicture = ({ image, size }: { image: any; size?: string }) => {
   return (
-    <ProfilePictureContainer>
+    <ProfilePictureContainer height={size}>
       <Image source={image} />
     </ProfilePictureContainer>
   );

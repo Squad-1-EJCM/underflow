@@ -12,7 +12,7 @@ const Register = () => {
     <AuthPage />,
     <AddressPage />,
     <UserDataPage />,
-    <SuccessPage />,
+    <SuccessPage href="Login" text="Conta criada com sucesso!" />,
   ];
   const [progress, setProgress] = React.useState(() => pagination.page / 3);
 

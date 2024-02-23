@@ -1,83 +1,94 @@
+import { DrawerContentScrollView } from "@react-navigation/drawer";
 import {
-  DrawerContentScrollView,
-  createDrawerNavigator,
-} from "@react-navigation/drawer";
-import { Feather } from "@expo/vector-icons";
-import Home from "../../pages/Home/Home";
-import {
-  Container,
+  NavItem,
   Icon,
   Name,
-  OptionsView,
+  Nav,
   PhotoView,
   ProfilePhoto,
   Subtitles,
   TopView,
   TotalView,
 } from "./styles";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { useNavigation } from "@react-navigation/native";
+import { RootStackParamList } from "../stack.routes";
+import { useUserContext } from "../../contexts/UserContext";
+import authenticate from "../../utils/authenticate";
+
+type HomeDrawerParamList = {
+  home: undefined;
+  Profile: undefined;
+};
+
+type SideMenu = DrawerNavigationProp<RootStackParamList & HomeDrawerParamList>;
 
 const sizeD = 30;
-const Drawer = createDrawerNavigator();
 const CustomDrawerContent: React.FC = () => {
+  const navigation = useNavigation<SideMenu>();
+  const { user } = useUserContext();
   return (
     <DrawerContentScrollView>
       <TotalView>
         <TopView>
           <PhotoView>
             <ProfilePhoto
-              source={{
-                uri: "https://images.unsplash.com/photo-1708024587407-73445142b5a8?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-              }}
+              source={
+                user?.imgUrl
+                  ? {
+                      uri: user.imgUrl,
+                    }
+                  : require("../../assets/user.jpg")
+              }
             />
           </PhotoView>
-          <Name>Nome de usuário</Name>
+          <Name>
+            {user?.name ? `${user.name} ${user.lastName}` : "Convidado"}
+          </Name>
         </TopView>
-        <OptionsView>
-          <Container>
+        <Nav>
+          <NavItem
+            onPress={() =>
+              authenticate(
+                user,
+                () => navigation.navigate("Profile"),
+                () => {
+                  console.log("Visitante");
+                }
+              )
+            }
+          >
             <Icon source={require("../../assets/perfil_i.svg")} />
             <Subtitles>Perfil</Subtitles>
-          </Container>
-          <Container>
+          </NavItem>
+          <NavItem onPress={() => navigation.navigate("home")}>
             <Icon source={require("../../assets/home_i.svg")} />
             <Subtitles>Home</Subtitles>
-          </Container>
-          <Container>
+          </NavItem>
+          <NavItem>
             <Icon source={require("../../assets/favoritos_i.svg")} />
             <Subtitles>Favoritos</Subtitles>
-          </Container>
-          <Container>
+          </NavItem>
+          <NavItem>
             <Icon source={require("../../assets/carrinho_i.svg")} />
             <Subtitles>Carrinho</Subtitles>
-          </Container>
-          <Container>
+          </NavItem>
+          <NavItem>
             <Icon source={require("../../assets/caderno_i.svg")} />
             <Subtitles>Histórico de compras</Subtitles>
-          </Container>
-          <Container>
+          </NavItem>
+          <NavItem
+            onPress={() => {
+              navigation.navigate("Login");
+            }}
+          >
             <Icon source={require("../../assets/sair_i.svg")} />
             <Subtitles>Sair</Subtitles>
-          </Container>
-        </OptionsView>
+          </NavItem>
+        </Nav>
       </TotalView>
     </DrawerContentScrollView>
   );
 };
-export default function DrawerRoutes() {
-  return (
-    <Drawer.Navigator
-      drawerContent={CustomDrawerContent}
-      screenOptions={{
-        headerTintColor: "#33415C",
-        title: "",
-        headerStyle: {
-          backgroundColor: "#F1F4FF",
-        },
-        drawerStyle: {
-          backgroundColor: "#F1F4FF",
-        },
-      }}
-    >
-      <Drawer.Screen name="home" component={Home} />
-    </Drawer.Navigator>
-  );
-}
+
+export default CustomDrawerContent;

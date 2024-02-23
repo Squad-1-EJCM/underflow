@@ -216,5 +216,3 @@ const AddProduct = () => {
     </AddProductView>
   );
 };
-
-export default AddProduct;
