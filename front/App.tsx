@@ -1,6 +1,11 @@
 import React from "react";
 import Routes from "./src/routes/index";
+import UserContextProvider from "./src/contexts/UserContext";
 
 export default function App() {
-  return <Routes />;
+  return (
+    <UserContextProvider>
+      <Routes />
+    </UserContextProvider>
+  );
 }

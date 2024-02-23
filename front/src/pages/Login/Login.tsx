@@ -1,6 +1,6 @@
 import React from "react";
 import AuthForm from "../../components/AuthForm/AuthForm";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Input from "../../components/Input/Input";
 import {
   Anchor,
@@ -16,6 +16,8 @@ import Checkbox from "../../components/Checkbox/Checkbox";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../routes/stack.routes";
+import userService, { LoginData } from "../../services/userService.ts";
+import { useUserContext } from "../../contexts/UserContext";
 
 type LoginScreen = NativeStackNavigationProp<RootStackParamList, "Register">;
 
@@ -32,10 +34,35 @@ const Login = () => {
     },
   });
   const navigation = useNavigation<LoginScreen>();
+  const { user, setUser } = useUserContext();
 
-  function onSubmit() {
-    navigation.navigate("Home");
-  }
+  const onSubmit: SubmitHandler<LoginData> = async (data) => {
+    const response = await userService
+      .login(data)
+      .then((response) => {
+        console.log(response);
+        return response;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    // Se a resposta for positiva, o usuário vai para a página home
+    if (response?.status === 200) {
+      const response = await userService
+        .getDetails()
+        .then((response) => {
+          console.log(response);
+          return response;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      if (response?.data) {
+        setUser(response.data);
+        navigation.navigate("Home");
+      }
+    }
+  };
 
   return (
     <Container>
