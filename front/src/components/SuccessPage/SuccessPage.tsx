@@ -8,8 +8,19 @@ import {
   UpperDetail,
 } from "./styles";
 import Button from "../Button/Button";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../routes/stack.routes";
+import { useNavigation } from "@react-navigation/native";
 
-const SuccessPage = () => {
+type SuccessScreen = NativeStackNavigationProp<RootStackParamList>;
+
+const SuccessPage = ({
+  href,
+  text,
+}: {
+  href: "Login" | "Register" | "Home";
+  text: string;
+}) => {
   const animationRef = React.useRef<LottieView | null>(null);
 
   React.useEffect(() => {
@@ -19,6 +30,7 @@ const SuccessPage = () => {
       }, 2100);
     }
   }, [animationRef]);
+  const navigation = useNavigation<SuccessScreen>();
 
   return (
     <Container>
@@ -31,12 +43,12 @@ const SuccessPage = () => {
         loop={false}
         progress={1} // Set progress to 1 to show the animation fully scaled
       />
-      <Text>Conta criada com sucesso!</Text>
+      <Text>{text}</Text>
 
       <ButtonContainer>
         <Button
           text="Entrar na sua conta"
-          onClick={() => {}}
+          onClick={() => navigation.navigate(href)}
           padding=".5rem"
           paddingLeft="1.25rem"
           paddingRight="1.25rem"

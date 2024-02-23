@@ -10,7 +10,8 @@ export const Header = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem 0 1rem;
+  padding-bottom: 1rem;
+
 `;
 
 export const Form = styled.View`

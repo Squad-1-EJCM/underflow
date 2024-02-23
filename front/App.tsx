@@ -1,7 +1,9 @@
 
 import React from "react";
-import Login from "./src/pages/Login/Login";
 import styled from "styled-components/native";
+
+
+import "react-native-gesture-handler";
 import Register from "./src/pages/Register/Register";
 import Routes from "./src/routes/routes";
 import { View } from "react-native";
@@ -17,10 +19,12 @@ import UpdateUser from "./src/pages/UpdateUser/UpdateUser";
 export default function App() {
   return (
     <Container>
+      <Routes />
       {/* <RegisterContextProvider>
         <Register />
       </RegisterContextProvider> */}
       {/* <Product /> */}
+
   );
 }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, Image, View } from "react-native";
+import { FlatList, Image, Pressable, View } from "react-native";
 import {
   AddProduct,
   CarouselContainer,
@@ -14,6 +14,13 @@ import ProfilePicture from "../../components/ProfilePicture/ProfilePicture";
 import axios from "axios";
 import CardBook from "../../components/CardBook/CardBook";
 import NotFound from "../../components/NotFound/NotFound";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { RootDrawerParamList } from "../../routes/drawer.routes";
+import { useNavigation } from "@react-navigation/native";
+
+
+type ProfileScreen = DrawerNavigationProp<RootDrawerParamList, "Profile">;
+
 
 export interface User {
   id: number;
@@ -46,6 +53,7 @@ interface Book {
 const Profile = () => {
   const id = 1;
   const [data, setData] = React.useState<User | null>(null);
+  const navigation = useNavigation<ProfileScreen>();
 
   React.useEffect(() => {
     async function requestData() {
@@ -64,8 +72,12 @@ const Profile = () => {
     return (
       <View>
         <Header>
-          <Image source={require("../../assets/return.svg")} />
-          <Image source={require("../../assets/pen-to-square-solid 1.svg")} />
+          <Pressable onPress={() => navigation.goBack()}>
+            <Image source={require("../../assets/return.svg")} />
+          </Pressable>
+          <Pressable onPress={() => navigation.navigate("EditProfile")}>
+            <Image source={require("../../assets/pen-to-square-solid 1.svg")} />
+          </Pressable>
         </Header>
         <ProfilePicture
           image={require("../../assets/profile.svg")}

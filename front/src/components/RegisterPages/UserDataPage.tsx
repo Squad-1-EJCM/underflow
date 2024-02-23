@@ -26,7 +26,7 @@ const UserDataPage = () => {
               value={value}
               onChangeText={onChange}
               onBlur={onBlur}
-              label="First name"
+              label="Nome"
               error={errors.name}
             />
           )}
