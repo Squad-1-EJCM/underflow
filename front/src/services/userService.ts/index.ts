@@ -52,4 +52,14 @@ export default {
       console.log(e);
     }
   },
+  async logout() {
+    try {
+      const response = api.post("/logout", {
+        withCredentials: true,
+      });
+      return response;
+    } catch (e) {
+      console.log(e);
+    }
+  },
 };
